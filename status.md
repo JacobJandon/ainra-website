@@ -37,7 +37,7 @@ Three independent implementations agree on all 745 CC0 conformance vectors, byte
 
 ### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
 
-STAGING NETWORK · TEST-ROOT · read live from the public artifact contract in your browser
+STAGING NETWORK · TEST-ROOT · published record, read in your browser
 
 —registrars
 
@@ -47,7 +47,7 @@ STAGING NETWORK · TEST-ROOT · read live from the public artifact contract in y
 
 —checkpoint height
 
-Live from the same CORS read contract AINRAscan uses — a staging TEST-ROOT, not production. Production logs sealed: 0 until genesis.
+The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not production. Point it at a network you run with ?net=<url> and these numbers go live. Production logs sealed: 0 until genesis.
 
 NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
 
