@@ -15,9 +15,9 @@ The complete normative specification. Read it or take the canonical file.
 
 Zero-dependency, real signatures, hash-chained log; catches forged tiers and rewritten history live. Download.
 
-### REFERENCE IMPLEMENTATION ENGINEERING-COMPLETE · PRE-RELEASE
+### REFERENCE IMPLEMENTATION PUBLIC · TWO SIGNED RELEASES
 
-The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — runs end-to-end on one machine and is being hardened for its first public release.
+The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — is public with two signed, board-proven releases — the current one is v0.3.0. A stranger's cold clone passes every gate: the repository.
 
 ### GENESIS ROOT MINTED · OPERATOR-RUN
 
@@ -29,11 +29,11 @@ Independent institutions wanted to cosign checkpoints — so no single party can
 
 ### EXTERNAL VERIFIERS INVITED
 
-A drop-in verifier kit ships with the first public release, so third parties can verify — and attest — on their own infrastructure. Want a seat? Join the founding table.
+The drop-in verifier kit and the self-serve conformance programme are published; third parties verify — and attest — on their own infrastructure. Attestations so far: 0 of the 3 needed. Want a seat? Join the founding table.
 
 ### CONFORMANCE 745/745 ✓
 
-Three independent implementations agree on all 745 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
+Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 745 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
 ### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
 
