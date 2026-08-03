@@ -1,0 +1,162 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AINRA registrar — public door + read API",
+    "version": "1",
+    "description": "A registrar-box's HTTP surface. READ endpoints are open. The PUBLIC DEMO DOOR (POST /demo/issue, /demo/revoke) needs no token, is rate-limited, staging/TEST-ROOT only, and mints/revokes only a low-tier specimen — so a stranger completes the whole lifecycle safely. Operator writes (/issue,/renew,/revoke) require a bearer token (see the console spec). There is NO verify REST API: GET /present returns the signed bundle and you verify it LOCALLY."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4907",
+      "description": "local staging registrar (make stage-all)"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness + network/root labels + record count.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/accreditation": {
+      "get": {
+        "summary": "issuer_key + log_root_key + status_key (verification anchors).",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/present": {
+      "get": {
+        "summary": "Signed presentation bundle for a subject at ?now= (feed to @ainra/sdk to verify LOCALLY).",
+        "parameters": [
+          {
+            "name": "sub",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "now",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "unknown subject"
+          }
+        }
+      }
+    },
+    "/record": {
+      "get": {
+        "summary": "The stored issued record for a subject.",
+        "parameters": [
+          {
+            "name": "sub",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "unknown subject"
+          }
+        }
+      }
+    },
+    "/export": {
+      "get": {
+        "summary": "Full record export at ?now=.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/status-list": {
+      "get": {
+        "summary": "Current signed status list segment at ?now=.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/demo/issue": {
+      "post": {
+        "summary": "PUBLIC DOOR: mint a low-tier specimen:demo credential (no auth, rate-limited, staging only).",
+        "responses": {
+          "200": {
+            "description": "IssuedRecord"
+          },
+          "403": {
+            "description": "not staging"
+          },
+          "429": {
+            "description": "rate limited"
+          }
+        }
+      }
+    },
+    "/demo/revoke": {
+      "post": {
+        "summary": "PUBLIC DOOR: revoke a specimen this registrar minted (no auth, rate-limited, staging only).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "sub"
+                ],
+                "properties": {
+                  "sub": {
+                    "type": "string"
+                  },
+                  "now": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "revoked"
+          },
+          "403": {
+            "description": "not a demo specimen / not staging"
+          },
+          "429": {
+            "description": "rate limited"
+          }
+        }
+      }
+    }
+  }
+}

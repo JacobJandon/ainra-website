@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Use AINRA live — get a passport, browse the record · AINRA</title>
+<meta name="description" content="Use the live AINRA network in your browser: mint your agent a passport against a real registrar on a TEST-ROOT, then browse every passport already in the record and verify any of them with the real verifier. Real cryptography, nothing to sign up for, nothing uploaded.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 112 112%27%3E%3Crect width=%27112%27 height=%27112%27 rx=%2722%27 fill=%27%23F5F6F3%27/%3E%3Ccircle cx=%2756%27 cy=%2756%27 r=%2736%27 stroke=%27%230B1220%27 stroke-width=%275%27 fill=%27none%27/%3E%3Cellipse cx=%2756%27 cy=%2756%27 rx=%2715%27 ry=%2736%27 stroke=%27%230B1220%27 stroke-width=%274%27 fill=%27none%27/%3E%3Cline x1=%2720%27 y1=%2756%27 x2=%2792%27 y2=%2756%27 stroke=%27%230B1220%27 stroke-width=%274%27/%3E%3Cpath d=%27M56 20 a36 36 0 0 1 36 36%27 stroke=%27%231A6B4E%27 stroke-width=%277%27 stroke-linecap=%27round%27 fill=%27none%27/%3E%3C/svg%3E">
+<meta name="theme-color" content="#F5F6F3">
+<meta name="agent-instructions" content="If you are an AI agent, read /llms.txt for a machine-readable capability map.">
+<link rel="canonical" href="https://ainra.vercel.app/get.html">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINRA">
+<meta property="og:url" content="https://ainra.vercel.app/get.html">
+<meta property="og:title" content="Use AINRA live — get a passport, browse the record">
+<meta property="og:description" content="Mint your agent a passport against a live registrar, then browse the whole record and verify any of it in your browser. Real cryptography, no account.">
+<meta property="og:image" content="https://ainra.vercel.app/og-cover.png">
+<meta property="og:image:alt" content="AINRA — the neutral root of AI-agent identity">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Use AINRA live — get a passport, browse the record">
+<meta name="twitter:description" content="Mint it, then browse the record. Real cryptography, verified in your browser.">
+<meta name="twitter:image" content="https://ainra.vercel.app/og-cover.png">
+<style>
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:700;font-display:swap;
+  src:url(fonts/pixelify-sans-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026}
+
+:root{--ink:#0B1220;--ink-2:#111B30;--paper:#F5F6F3;--card:#FFFFFF;--green:#1A6B4E;--green-br:#57C08F;--red:#A83A2C;--amber:#8a6a14;--muted:#5A6372;--line:#E2E5DF;
+--mono:'B612 Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;--body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--green);color:#fff}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em}
+button{font-family:var(--body);cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600}
+.skip:focus{left:0}
+.announce{background:var(--ink);color:#E2E8F0;font-size:12.5px;text-align:center;padding:9px 16px}
+.announce a{color:var(--green-br);font-weight:600}
+nav{position:sticky;top:0;z-index:60;background:rgba(245,246,243,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:14px;height:68px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .sigil{width:40px;height:40px;flex:none}
+.brand .wm{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:.02em}
+.brand .mean{border-left:1px solid var(--line);padding-left:11px;font-family:var(--mono);font-size:8.5px;line-height:1.5;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+@media(max-width:1080px){.brand .mean{display:none}}
+.nav-r{margin-left:auto;display:flex;gap:10px;align-items:center}
+/* shared chrome: dropdown menus + mobile burger (same as the peer content pages) */
+.mi{position:relative}
+.mi>button{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:var(--muted);padding:9px 12px;border-radius:10px}
+.mi>button:hover{color:var(--ink);background:rgba(11,18,32,.045)}
+.car{font-size:9px;opacity:.6}
+.dd{position:absolute;top:calc(100% + 6px);left:0;min-width:238px;background:var(--card);border:1px solid rgba(11,18,32,.14);border-radius:14px;padding:7px;display:none;box-shadow:0 24px 60px rgba(11,18,32,.12);z-index:70}
+.mi.open .dd{display:block}
+.dd a{display:block;font-size:13.5px;font-weight:500;color:var(--muted);padding:9px 11px;border-radius:9px}
+.dd a span{display:block;font-size:11.5px;font-weight:400;color:var(--muted);opacity:.85;margin-top:1px}
+.dd a:hover{background:rgba(26,107,78,.06);color:var(--ink)}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--card);place-items:center;font-family:var(--mono);font-size:15px}
+.nav-links{display:flex;gap:24px;font-size:14px;font-weight:500;color:var(--muted)}
+.nav-links a:hover{color:var(--ink)}
+@media(min-width:901px){.nav-links{display:none!important}}
+@media(max-width:900px){
+  .nav-in .mi,.nav-in .nav-hide{display:none}
+  .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px}
+  .nav-links a{padding:12px 0;border-top:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .burger{display:grid}
+}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:99px;font-weight:600;font-size:14px;padding:10px 18px;border:1px solid transparent;transition:transform .15s,background .15s,border-color .15s,filter .15s}
+.btn:active{transform:scale(.98)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-ink{background:var(--ink);color:#fff}.btn-ink:hover{background:#1d2a44}
+.btn-ghost{border-color:var(--line);background:var(--card);color:var(--ink)}.btn-ghost:hover{border-color:var(--ink)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{filter:brightness(1.1)}
+.hero{padding:52px 0 8px;text-align:center;background:radial-gradient(720px 300px at 50% -60px,rgba(26,107,78,.12),transparent 70%)}
+.hero h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:780;line-height:1.04;letter-spacing:-.03em;max-width:720px;margin:12px auto 0}
+.hero .sub{margin:14px auto 0;max-width:600px;font-size:16px;color:var(--muted)}
+.hero .jump{display:flex;gap:8px;justify-content:center;margin:18px auto 0;flex-wrap:wrap}
+/* section divider */
+.sec-head{max-width:820px;margin:52px auto 0;text-align:center}
+.sec-head h2{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:760;letter-spacing:-.02em}
+.sec-head p{margin:8px auto 0;max-width:560px;font-size:15px;color:var(--muted)}
+.stepper{display:flex;gap:8px;justify-content:center;margin:20px auto 0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;flex-wrap:wrap}
+.stepper .g-dot{display:inline-flex;align-items:center;gap:6px}
+.stepper .g-dot:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line)}
+.stepper .g-dot[data-on="1"]{color:var(--green)}.stepper .g-dot[data-on="1"]:before{background:var(--green)}
+.flow{max-width:720px;margin:26px auto 0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:0 24px 56px -34px rgba(11,18,32,.24)}
+.panel .tag{float:right;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 8px}
+.panel h2{font-size:20px;margin-bottom:4px}.panel .lede{color:var(--muted);font-size:14px;margin-bottom:18px}
+label.fld{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin:14px 0 5px}
+input.txt{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:14px var(--mono)}
+.previewrow{margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:9px;padding:12px 14px;word-break:break-all}
+.previewrow b{color:var(--green)}
+.grow{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+/* passport card */
+.pass{background:linear-gradient(160deg,#fff, #FAFBF9);border:1px solid var(--line2, rgba(11,18,32,.14));border-radius:14px;overflow:hidden;position:relative;box-shadow:0 30px 60px -40px rgba(11,18,32,.4)}
+.pass-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--ink);color:#fff}
+.pass-head b{font-family:var(--display);font-size:13px;letter-spacing:.03em;display:flex;align-items:center;gap:8px}
+.pass-head .sigil{width:22px;height:22px}
+.pass-head span{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:rgba(255,255,255,.55)}
+.pass-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px 22px}
+@media(max-width:560px){.pass-body{grid-template-columns:1fr}}
+.pf label{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.pf div{font-family:var(--mono);font-size:12px;color:var(--ink);font-weight:600;word-break:break-all;margin-top:2px}
+.pf.wide{grid-column:1/-1}
+.pass-foot{border-top:1px dashed var(--line);margin:0 20px;padding:12px 0;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--green)}
+.pass-foot i{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+.g-verdict{font-family:var(--display);font-weight:800;font-size:26px}
+.g-verdict.ok{color:var(--green)}.g-verdict.no{color:var(--red)}.g-verdict.pend{color:var(--muted)}
+.event{font-family:var(--mono);font-size:11px;color:#c9d2e0;background:var(--ink);border-radius:10px;padding:12px 14px;margin-top:12px;white-space:pre-wrap;word-break:break-word;line-height:1.6}
+.onboard{background:var(--ink);border-radius:12px;overflow:hidden;margin-top:16px}
+.onboard-bar{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.onboard-bar .copy{margin-left:auto;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:3px 8px;cursor:pointer}
+.onboard-bar .copy:hover{color:#fff}
+.onboard pre{padding:14px;font-family:var(--mono);font-size:11.5px;line-height:1.7;color:#D7DCE5;white-space:pre-wrap;margin:0}
+/* browse (AINRAscan) */
+.s-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:22px auto 0;max-width:820px}
+@media(max-width:640px){.s-stats{grid-template-columns:repeat(2,1fr)}}
+.s-stat{background:var(--card);padding:16px 14px;text-align:center}
+.s-stat b{font-family:var(--display);font-size:22px;font-weight:750;display:block;letter-spacing:-.02em;word-break:break-all}
+.s-stat span{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:4px;display:block}
+.s-rootdark{max-width:820px;margin:12px auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--muted);text-align:center;background:rgba(26,107,78,.06);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.s-rootdark.ok{color:var(--green)}.s-rootdark.ok b{color:var(--green)}.s-rootdark.no{color:var(--red)}
+.s-search{max-width:820px;margin:20px auto 0;position:relative}
+.s-search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font:14px var(--mono)}
+.s-search svg{position:absolute;left:14px;top:13px;width:16px;height:16px;color:var(--muted)}
+.s-rows{max-width:820px;margin:14px auto 0;display:flex;flex-direction:column;gap:8px}
+.s-item{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.s-row{display:flex;align-items:center;gap:12px;padding:13px 16px}
+.s-main{flex:1;min-width:0}
+.s-name{font-family:var(--mono);font-size:12.5px;color:var(--ink);word-break:break-all}
+.s-meta{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.s-chip{flex:none;font-family:var(--body);font-size:10px;font-weight:700;border-radius:99px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px}
+.s-chip:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.s-chip.ok{background:rgba(26,107,78,.1);color:var(--green)}.s-chip.no{background:rgba(168,58,44,.1);color:var(--red)}
+.s-verify{flex:none;font-family:var(--body);font-weight:600;font-size:12.5px;color:var(--ink);border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:7px 12px}
+.s-verify:hover{border-color:var(--green);color:var(--green)}
+.s-detail{border-top:1px solid var(--line);padding:16px;background:var(--paper)}
+.s-verd{font-family:var(--display);font-weight:800;font-size:19px}
+.s-verd.ok{color:var(--green)}.s-verd.no{color:var(--red)}.s-verd.pend{color:var(--muted)}
+.s-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:12px}
+@media(max-width:560px){.s-fields{grid-template-columns:1fr}}
+.s-fields div{font-family:var(--mono);font-size:11.5px;color:var(--ink);word-break:break-all}
+.s-fields span{display:block;font-size:8.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.s-event{font-family:var(--mono);font-size:11px;color:#c9d2e0;background:var(--ink);border-radius:9px;padding:11px 13px;margin-top:12px;white-space:pre-wrap;word-break:break-word;line-height:1.6}
+.s-note{font-size:11.5px;color:var(--muted);margin-top:10px}
+.s-empty{text-align:center;color:var(--muted);padding:26px;font-size:14px}
+.err{background:rgba(168,58,44,.08);border:1px solid rgba(168,58,44,.3);border-radius:10px;padding:16px;font-size:14px;color:var(--red);max-width:820px;margin:22px auto 0}
+.err code{font-family:var(--mono);background:rgba(168,58,44,.12);padding:1px 5px;border-radius:4px}
+footer a{color:var(--green)}
+/* pixel display type (site-wide rollout, looks only) */
+h1,.sec-head h2,.hero-h{font-family:'Pixelify Sans',var(--display);font-weight:700;letter-spacing:.005em;line-height:1.04}
+nav .btn{white-space:nowrap;flex:none}
+nav .wrap{max-width:1200px}
+@media(max-width:1360px){.brand .mean{display:none}}
+nav .ndocs{font-size:14px;font-weight:500;color:var(--muted);padding:9px 12px;border-radius:10px}
+nav .ndocs:hover{color:var(--ink);background:rgba(11,18,32,.045)}
+@media(max-width:1150px){.nav-hide-mid{display:none}}
+@media(max-width:900px){nav .ndocs{display:none}}
+[id]{scroll-margin-top:92px}
+footer{padding:52px 0 40px;border-top:1px solid var(--line);margin-top:92px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot h4{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:9px;font-size:13.5px;color:var(--muted)}
+.foot ul a:hover{color:var(--ink)}
+.status{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.status .live{display:inline-flex;align-items:center;gap:7px}
+.status .live i{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.4s infinite}
+@media(max-width:760px){.foot{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body id="top">
+<a href="#main" class="skip">Skip to content</a>
+
+<div class="announce">Real issuance + the real record on a <b>TEST-ROOT</b> — every passport here is a labelled specimen with real cryptography, verified on your machine. <a href="foundation.html">Honest status →</a></div>
+
+<nav><div class="wrap nav-in">
+  <a class="brand" href="index.html" aria-label="AINRA — Agent Identity and Naming Registry Authority">
+    <span class="sigil" aria-hidden="true"><svg viewBox="0 0 112 112"><use href="#ainra-sigil"/></svg></span>
+    <span class="wm">AINRA</span><span class="mean">Agent Identity &amp; Naming<br>Registry Authority</span></a>
+  <a href="verify.html" class="ndocs">Verify</a>
+  <a href="get.html" class="ndocs">Network</a>
+  <a href="foundation.html" class="ndocs">Foundation</a>
+  <a href="docs.html" class="ndocs">Docs</a>
+  <div class="nav-r">
+    <a class="btn btn-ghost nav-hide" href="https://github.com/JacobJandon/ainra" rel="noopener" aria-label="Source repository on GitHub">GitHub ↗</a>
+    <a class="btn btn-ink nav-hide" href="foundation.html#access">Join the founding table</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">≡</button>
+  </div>
+  <div class="nav-links" id="navLinks"><a href="index.html">The root</a><a href="verify.html">Verify</a><a href="get.html" style="color:var(--green)">Network</a><a href="foundation.html">Foundation</a><a href="docs.html">Docs</a><a href="foundation.html#access">Join the founding table</a><a href="https://github.com/JacobJandon/ainra" rel="noopener">GitHub ↗</a></div>
+</div></nav>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><g id="ainra-sigil">
+  <path d="M 98.4 33.5 A 48 48 0 1 0 78.5 13.6" fill="none" stroke="#0B1220" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 80.6 11.5 L 83.4 18.5 L 76.4 15.7 Z" fill="#0B1220"/>
+  <circle cx="56" cy="56" r="36" stroke="#0B1220" stroke-width="1.2" fill="none"/>
+  <circle cx="56" cy="56" r="26" stroke="#0B1220" stroke-width="1.6" fill="none"/>
+  <ellipse cx="56" cy="56" rx="11" ry="26" stroke="#0B1220" stroke-width="1" fill="none"/>
+  <line x1="30" y1="56" x2="82" y2="56" stroke="#0B1220" stroke-width="1.1"/>
+  <path d="M56 30 a26 26 0 0 1 26 26" stroke="#1A6B4E" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="56" cy="56" r="2.4" fill="#0B1220"/>
+</g>
+<g id="ainra-crest"><circle cx="80" cy="80" r="76" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="80" cy="80" r="58" fill="none" stroke="currentColor" stroke-width="1.1"/><g transform="translate(27.7,27.7) scale(0.935)"><use href="#ainra-sigil"/></g></g>
+</defs></svg>
+
+<main id="main" class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Use the live network</span>
+    <h1>Get a passport. Browse the record.</h1>
+    <p class="sub">Mint your agent an identity against a live registrar, then browse every passport already in the record — both live, both verified in your own browser. No account, nothing uploaded.</p>
+    <div class="jump">
+      <a class="btn btn-green" href="#get">Get a passport →</a>
+      <a class="btn btn-ghost" href="#browse">Browse the record</a>
+    </div>
+  </div>
+
+  <!-- ── GET A PASSPORT ─────────────────────────────────────────────────── -->
+  <div class="wrap">
+    <div class="sec-head"><h2>Get a passport.</h2><p>Name your agent, mint it against a live registrar, and use it — real signatures, logged before it is valid.</p></div>
+    <div class="stepper">
+      <span class="g-dot" data-i="1" data-on="1">1 · Name it</span>
+      <span class="g-dot" data-i="2" data-on="0">2 · Get it</span>
+      <span class="g-dot" data-i="3" data-on="0">3 · Use it</span>
+    </div>
+    <div id="get" class="flow">
+      <div id="g-flow">
+        <!-- STEP 1 — name -->
+        <div class="panel" data-step="1">
+          <span class="tag" id="g-badge">STAGING · TEST-ROOT</span>
+          <h2>Name your agent.</h2>
+          <p class="lede">A passport carries one canonical name. Pick who operates it and what it does.</p>
+          <label class="fld" for="g-op">Operator (your org)</label>
+          <input class="txt" id="g-op" placeholder="acme" maxlength="24" autocomplete="off">
+          <label class="fld" for="g-lin">Lineage (the agent)</label>
+          <input class="txt" id="g-lin" placeholder="invoice-bot" maxlength="24" autocomplete="off">
+          <div class="previewrow">Your agent's name will be <b id="g-preview">ainra:registrar-07:specimen:demo@1.0.x</b></div>
+          <div class="grow"><button class="btn btn-green" id="g-mint">Mint my passport →</button></div>
+        </div>
+
+        <!-- STEP 2 — the passport -->
+        <div class="panel" data-step="2" hidden>
+          <span class="tag">SPECIMEN · TEST-ROOT</span>
+          <h2>Your passport.</h2>
+          <p class="lede">Minted by the registrar, dual-signed, and sealed into the transparency log before it is valid.</p>
+          <div class="pass">
+            <div class="pass-head"><b><span class="sigil" aria-hidden="true"><svg viewBox="0 0 112 112"><use href="#ainra-sigil"/></svg></span>AGENT PASSPORT</b><span>TYPE AP · SPECIMEN</span></div>
+            <div class="pass-body">
+              <div class="pf wide"><label>AINRA Number</label><div id="c-number">—</div></div>
+              <div class="pf wide"><label>Name</label><div id="c-name">—</div></div>
+              <div class="pf"><label>Operator</label><div id="c-op">—</div></div>
+              <div class="pf"><label>Lineage</label><div id="c-lineage">—</div></div>
+              <div class="pf"><label>Assurance</label><div id="c-tier">—</div></div>
+              <div class="pf"><label>Authority</label><div id="c-auth">—</div></div>
+              <div class="pf wide"><label>Keys</label><div id="c-key">—</div></div>
+            </div>
+            <div class="pass-foot"><i></i><span id="c-height">—</span></div>
+          </div>
+          <div class="grow">
+            <button class="btn btn-green" id="g-verify">Use it — verify →</button>
+            <button class="btn btn-ghost" id="g-download">Download passport</button>
+            <a class="btn btn-ghost" id="c-scan" href="#browse" hidden>Find it below ↓</a>
+          </div>
+        </div>
+
+        <!-- STEP 3 — use -->
+        <div class="panel" data-step="3" hidden>
+          <span class="tag">RUNS ON YOUR MACHINE</span>
+          <h2>Use it.</h2>
+          <p class="lede">The verdict below was computed in <b>your</b> browser from the log's own inclusion proof — not taken on trust.</p>
+          <div style="display:flex;align-items:baseline;gap:12px"><span class="g-verdict pend" id="g-verdict">—</span><span style="font-family:var(--mono);font-size:11px;color:var(--muted)">the one AINRA verdict event</span></div>
+          <div class="event" id="g-event">press “Use it — verify”.</div>
+          <div class="onboard">
+            <div class="onboard-bar"><span>hand this passport to your agent</span><button class="copy" id="g-copyprompt" type="button">COPY</button></div>
+            <pre id="g-prompt">Mint a passport first.</pre>
+          </div>
+          <div class="grow">
+            <button class="btn btn-ghost" id="g-revoke">Revoke it (watch it fail closed)</button>
+            <button class="btn btn-ghost" id="g-again">Mint another</button>
+          </div>
+        </div>
+      </div>
+      <div id="g-unavailable" class="err" hidden></div>
+    </div>
+  </div>
+
+  <!-- ── BROWSE THE RECORD (AINRAscan) ──────────────────────────────────── -->
+  <div class="wrap">
+    <div class="sec-head" id="browse"><h2>Browse the live record.</h2><p>Every passport in the network, read from the public contract and verifiable on your own machine — active or revoked, all chained to the root.</p></div>
+    <div id="scan">
+      <div id="s-flow">
+        <div class="s-stats">
+          <div class="s-stat"><b id="s-root">—</b><span>root</span></div>
+          <div class="s-stat"><b id="s-regs">—</b><span>registrars</span></div>
+          <div class="s-stat"><b id="s-issued">—</b><span>passports</span></div>
+          <div class="s-stat"><b id="s-revoked">—</b><span>revoked</span></div>
+          <div class="s-stat"><b id="s-height">—</b><span>checkpoint height</span></div>
+        </div>
+        <div class="s-rootdark" id="s-rootdark" hidden></div>
+        <div class="s-rootdark" id="s-suite" hidden></div>
+        <div class="s-rootdark" id="s-witnesses" hidden></div>
+        <div class="s-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="s-search" type="search" placeholder="Search by name, operator, or tier…" aria-label="Search passports" autocomplete="off">
+        </div>
+        <div class="s-rows" id="s-rows"></div>
+      </div>
+      <div id="s-down" class="err" hidden></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="index.html" aria-label="AINRA — Agent Identity and Naming Registry Authority">
+          <span class="sigil" style="width:38px;height:38px" aria-hidden="true"><svg viewBox="0 0 112 112"><use href="#ainra-sigil"/></svg></span>
+          <span class="wm" style="font-size:17px">AINRA</span>
+          <span class="mean">Agent Identity &amp; Naming<br>Registry Authority</span>
+        </a>
+        <p style="margin-top:16px;font-size:13px;color:var(--muted);max-width:26ch">The neutral root of AI agent identity. Est. 2026.</p>
+      </div>
+      <div>
+        <h4>Protocol</h4>
+        <ul>
+          <li><a href="docs.html#standard">The standard</a></li>
+          <li><a href="ainra-cli-v0.3.0.zip">Reference CLI v0.3.0</a></li>
+          <li><a href="https://github.com/JacobJandon/ainra" rel="noopener">Source — the full reference impl</a></li>
+          <li><a href="index.html#top">The passport</a></li>
+          <li><a href="verify.html#authority">Authority model</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          </ul>
+      </div>
+      <div>
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="verify.html#align">Where you plug in</a></li>
+          <li><a href="verify.html#tiers">Assurance tiers</a></li>
+          <li><a href="index.html#integrate">Onboard an agent</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Root</h4>
+        <ul>
+          <li><a href="index.html#root">What the root does</a></li>
+          <li><a href="docs.html#charter">Charter</a></li>
+          <li><a href="foundation.html#plan">The plan</a></li>
+          <li><a href="docs.html#faq">FAQ</a></li>
+          <li><a href="foundation.html#access">Get involved</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="status">
+      <span class="live"><i aria-hidden="true"></i> ROOT STATUS: PRE-CEREMONY</span>
+      <span>LOGS SEALED: 0 · WITNESSES: RECRUITING · SPEC PUBLIC · CLI v0.3.0</span>
+      <span>ISSUES NOTHING · SCORES NOTHING · SEES NO PII · FAVORS NO ONE</span>
+    
+      <span class="openbadge"><svg style="width:26px;height:26px;color:#8A93A0" viewBox="0 0 160 160" aria-hidden="true"><use href="#ainra-crest"/></svg>An open standard · held by no one</span></div>
+  </div>
+</footer>
+
+<script>
+/* shared chrome: dropdown menus + mobile burger (same behavior as the peer content pages) */
+(function(){
+  var closeDD=function(){document.querySelectorAll('.mi.open').forEach(function(m){m.classList.remove('open');var bb=m.querySelector('[data-dd]');if(bb)bb.setAttribute('aria-expanded','false');});};
+  document.querySelectorAll('[data-dd]').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();
+    var mi=b.parentElement,was=mi.classList.contains('open');
+    closeDD();
+    if(!was){mi.classList.add('open');b.setAttribute('aria-expanded','true');}});});
+  document.addEventListener('click',closeDD);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDD();});
+  var burger=document.getElementById('burger'),links=document.getElementById('navLinks');
+  if(burger&&links){
+    burger.addEventListener('click',function(){var open=links.classList.toggle('open');burger.setAttribute('aria-expanded',open?'true':'false');});
+    links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');burger.setAttribute('aria-expanded','false');});});
+  }
+})();
+</script>
+<script type="module" src="js/get.mjs"></script>
+<script type="module" src="js/scan.mjs"></script>
+</body>
+</html>

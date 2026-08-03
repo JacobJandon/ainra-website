@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: AINRA public artifact contract (READ)
+  version: 1
+  description: "The public, cacheable, CORS-enabled READ surface a verifier/mirror/explorer consumes. No auth, no writes. There is NO verification endpoint here — verification is LOCAL: fetch these signed facts and check them yourself with @ainra/sdk (~5 lines). Responses carry X-AINRA-Network and X-AINRA-Root banner headers."
+servers:
+  -
+    url: "http://127.0.0.1:8091"
+    description: local staging (make stage-all)
+paths:
+  /index.json:
+    get:
+      summary: "Network index: labels, generated window, registrar ids, artifact map."
+      responses:
+        200:
+          description: OK
+  /directory.json:
+    get:
+      summary: "The registrar directory: accreditations and root keys."
+      responses:
+        200:
+          description: OK
+  /registry.json:
+    get:
+      summary: "All registrars + their issued records + totals {registrars, issued, revoked}."
+      responses:
+        200:
+          description: OK
+  /skills.md:
+    get:
+      summary: Agent onboarding (markdown).
+      responses:
+        200:
+          description: OK
+  "/registrars/{id}/accreditation.json":
+    get:
+      summary: "One registrar's issuer_key + log_root_key (verification anchors)."
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+  "/registrars/{id}/export.json":
+    get:
+      summary: "One registrar's full record export."
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+  "/registrars/{id}/status/current.json":
+    get:
+      summary: "The registrar's current signed status list segment."
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK

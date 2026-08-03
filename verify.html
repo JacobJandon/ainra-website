@@ -1,0 +1,958 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verify — AINRA</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 112 112%27%3E%3Crect width=%27112%27 height=%27112%27 rx=%2722%27 fill=%27%23F5F6F3%27/%3E%3Ccircle cx=%2756%27 cy=%2756%27 r=%2736%27 stroke=%27%230B1220%27 stroke-width=%275%27 fill=%27none%27/%3E%3Cellipse cx=%2756%27 cy=%2756%27 rx=%2715%27 ry=%2736%27 stroke=%27%230B1220%27 stroke-width=%274%27 fill=%27none%27/%3E%3Cline x1=%2720%27 y1=%2756%27 x2=%2792%27 y2=%2756%27 stroke=%27%230B1220%27 stroke-width=%274%27/%3E%3Cpath d=%27M56 20 a36 36 0 0 1 36 36%27 stroke=%27%231A6B4E%27 stroke-width=%277%27 stroke-linecap=%27round%27 fill=%27none%27/%3E%3C/svg%3E">
+<meta name="theme-color" content="#F5F6F3">
+<meta name="agent-instructions" content="If you are an AI agent, read /llms.txt for a machine-readable capability map.">
+<link rel="canonical" href="https://ainra.vercel.app/verify.html">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AINRA">
+<meta property="og:url" content="https://ainra.vercel.app/verify.html">
+<meta property="og:title" content="Verify — AINRA">
+<meta property="og:description" content="How AINRA verification works: four checks, a proposed fail-closed freshness profile, a working reference CLI, and what ships at first public release.">
+<meta property="og:image" content="https://ainra.vercel.app/og-cover.png">
+<meta property="og:image:alt" content="AINRA — the neutral root of AI-agent identity">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Verify — AINRA">
+<meta name="twitter:description" content="How AINRA verification works — a handful of checks, fail-closed, offline-capable.">
+<meta name="twitter:image" content="https://ainra.vercel.app/og-cover.png">
+<noscript><style>.rv,.t-line,.verify-line{opacity:1!important;transform:none!important}.needs-js{display:none!important}#noscript-note{display:block!important}.sec-head .hero-h{font-family:var(--display);font-size:clamp(1.9rem,4vw,2.75rem);font-weight:730;line-height:1.1;margin-top:12px;letter-spacing:-.03em}
+
+</style></noscript><meta name="description" content="How AINRA verification works: four checks, a proposed fail-closed freshness profile, a working reference CLI, and what ships at first public release.">
+<style>
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:700;font-display:swap;
+  src:url(fonts/pixelify-sans-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026}
+
+:root{
+  --ink:#0B1220; --ink-2:#111B30; --paper:#F5F6F3; --card:#FFFFFF;
+  --green:#1A6B4E; --green-br:#57C08F; --muted:#5A6372; --line:#E2E5DF;
+  --mono:'B612 Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--green);color:#fff}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em}
+button{font-family:var(--body);cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600}
+.skip:focus{left:0}
+
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .sigil{width:48px;height:48px;flex:none}
+.brand .sigil svg{display:block;width:100%;height:100%}
+.brand .wm{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:.02em}
+.brand .mean{border-left:1px solid var(--line);padding-left:12px;font-family:var(--mono);font-size:8.5px;line-height:1.5;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+@media(max-width:560px){.brand .mean{display:none}}
+
+nav{position:sticky;top:0;z-index:50;background:rgba(245,246,243,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.nav-links{display:flex;gap:24px;font-size:14px;font-weight:500;color:var(--muted)}
+.nav-links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:99px;font-weight:600;font-size:14.5px;padding:10px 20px;border:1px solid transparent;transition:transform .15s ease,background .15s ease,border-color .15s ease}
+.btn:active{transform:scale(.98)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#1d2a44}
+.btn-ghost{border-color:var(--line);background:var(--card);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--card);place-items:center;font-family:var(--mono);font-size:15px}
+@media(max-width:900px){
+  .nav-links{display:none;position:absolute;top:70px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px}
+  .nav-links a{padding:12px 0;border-top:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .burger{display:grid}
+}
+
+.hero{padding:70px 0 60px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:52px;align-items:center}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:48px}.hero{padding:48px 0 44px}}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--muted);margin-bottom:26px;transition:border-color .15s}
+.pill:hover{border-color:var(--green)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.4s infinite}
+.pill .arr{color:var(--green)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-size:clamp(2.7rem,6.2vw,4.4rem);font-weight:780;line-height:1;letter-spacing:-.038em}
+.hero h1 .u{box-shadow:inset 0 -0.13em 0 rgba(26,107,78,.26)}
+.hero .sub{margin-top:22px;font-size:17.5px;color:var(--muted);max-width:36em;line-height:1.65}
+.cta-row{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+/* passport — right of hero, full data */
+.pass-wrap{perspective:1600px;display:flex;justify-content:center}
+.passport{width:min(560px,100%);background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 1px 2px rgba(11,18,32,.05),0 22px 52px -24px rgba(11,18,32,.22);
+  position:relative;overflow:hidden;transition:box-shadow .25s ease;will-change:transform}
+.passport::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;
+  background:repeating-radial-gradient(circle at 118% -18%,rgba(26,107,78,.05) 0 2px,transparent 2px 10px),
+             repeating-radial-gradient(circle at -18% 118%,rgba(26,107,78,.05) 0 2px,transparent 2px 10px)}
+.pass-wm{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+  font-family:var(--display);font-weight:800;font-size:120px;letter-spacing:.06em;
+  color:transparent;-webkit-text-stroke:1px rgba(11,18,32,.045);transform:rotate(-16deg)}
+.pass-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);position:relative}
+.pass-head b{color:var(--ink);font-weight:700;display:flex;align-items:center;gap:10px}
+.pass-head .sigil{width:26px;height:26px;flex:none}
+.pass-head .sigil svg{display:block;width:100%;height:100%}
+.pass-body{display:grid;grid-template-columns:104px 1fr;gap:16px;padding:16px 18px 10px;position:relative}
+.portrait{width:104px;height:104px;border:1px solid var(--line);border-radius:8px;background:var(--paper);display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:2px;padding:8px;position:relative}
+.portrait i{border-radius:1.5px}
+.portrait i.on{background:var(--ink)}
+.portrait i.gn{background:var(--green)}
+.portrait::after{content:"AGENT PORTRAIT";position:absolute;left:0;right:0;bottom:-14px;text-align:center;font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--muted)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;align-content:start}
+.f label{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.f div{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.f .ok{color:var(--green);font-family:var(--mono);font-size:10.5px}
+.tier-chip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);border:1.5px solid var(--green);border-radius:5px;padding:2px 7px;letter-spacing:.06em}
+.datarows{margin:8px 18px 0;border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:6px}
+.dr{display:grid;grid-template-columns:78px 1fr;gap:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;align-items:baseline}
+.dr b{color:var(--muted);font-weight:400;letter-spacing:.12em;font-size:8.5px}
+.dr span{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dr span i{font-style:normal;color:var(--green)}
+.authority{padding:10px 18px 12px;position:relative}
+.authority label{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.authority div{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink);font-weight:700}
+.mrz-zone{margin:0 12px 12px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;position:relative}
+.mrz{font-family:var(--mono);font-size:clamp(8.5px,1.9vw,11px);letter-spacing:.06em;line-height:1.75;color:var(--ink);white-space:pre;overflow:hidden}
+.mrz .caret{display:inline-block;width:.55em;height:1em;background:var(--green);vertical-align:-2px;animation:pulse 1s infinite}
+.verify-line{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--green);opacity:0;transform:translateY(3px)}
+.verify-line.in{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease}
+.verify-line i{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none}
+.verify-line span{color:var(--muted)}
+@media(max-width:480px){.pass-body{grid-template-columns:88px 1fr;gap:12px}.portrait{width:88px;height:88px}.pass-wm{font-size:88px}.dr{grid-template-columns:66px 1fr}}
+
+.interop{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--card);padding:24px 0}
+.interop .wrap{display:flex;flex-direction:column;gap:14px;align-items:center}
+.interop .row{display:flex;align-items:center;gap:12px 32px;flex-wrap:wrap;justify-content:center}
+.interop span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.interop .lead{color:var(--ink);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.16em}
+
+.stats{padding:72px 0 8px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stat{background:var(--card);padding:26px 22px}
+.stat .n{font-family:var(--display);font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:750;letter-spacing:-.03em}
+.stat .n em{font-style:normal;color:var(--green)}
+.stat p{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+.stat .src{font-family:var(--mono);font-size:9.5px;color:var(--muted);opacity:.7;letter-spacing:.06em;margin-top:8px;display:block}
+@media(max-width:820px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.stat-grid{grid-template-columns:1fr}}
+
+section{padding:92px 0}
+.sec-head{max-width:680px;margin-bottom:44px}
+.sec-head h2{font-size:clamp(1.9rem,4vw,2.75rem);font-weight:730;line-height:1.1;margin-top:12px;letter-spacing:-.03em}
+.sec-head .lede{margin-top:14px;color:var(--muted);font-size:16.5px}
+
+.does{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:820px){.does{grid-template-columns:1fr}}
+.do-cell{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px}
+.do-cell .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--green);text-transform:uppercase;display:block;margin-bottom:12px}
+.do-cell h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.015em}
+.do-cell p{font-size:14.5px;color:var(--muted)}
+.do-cell .not{margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.do-cell .not b{color:var(--green)}
+
+.dark{background:var(--ink);color:#E7EAF0;position:relative}
+.dark::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;
+  background:repeating-radial-gradient(circle at 112% -22%,rgba(87,192,143,.09) 0 2px,transparent 2px 11px)}
+.dark .eyebrow{color:var(--green-br)}
+.dark .sec-head .lede{color:#98A1B3}
+
+.orbit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;position:relative;z-index:1}
+@media(max-width:900px){.orbit-grid{grid-template-columns:1fr}}
+.orbit{width:100%;max-width:560px;margin:0 auto}
+.orbit svg{display:block;width:100%;height:auto}
+.legend{display:grid;gap:14px}
+.leg{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px;background:rgba(255,255,255,.03)}
+.leg b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--green-br);display:block;margin-bottom:5px}
+.leg p{font-size:13.5px;color:#B9C1CF;line-height:1.55}
+.leg.core{border-color:rgba(87,192,143,.5);background:rgba(87,192,143,.06)}
+.leg.core b{color:#fff}
+
+.defs{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+@media(max-width:820px){.defs{grid-template-columns:1fr}}
+.def{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.mark{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--mono);font-size:9.5px;font-weight:700;flex:none;margin-top:2px}
+.def .body b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);display:block;margin-bottom:3px}
+.def .body p{font-size:14px;color:var(--muted);line-height:1.55}
+.def .body p em{font-style:normal;color:var(--green);font-family:var(--mono);font-size:11px}
+
+.rail{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+.rail button{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;border:1px solid var(--line);border-radius:8px;padding:9px 14px;color:var(--muted);transition:all .15s;background:var(--card)}
+.rail button:hover{border-color:var(--green);color:var(--green)}
+.rail button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.rail-info{margin-top:18px;border-left:2px solid var(--green);padding:4px 0 4px 16px;max-width:680px}
+.rail-info b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--green)}
+.rail-info p{font-size:14.5px;color:var(--muted);margin-top:4px}
+.mini-code{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink);overflow-x:auto;white-space:pre;max-width:680px}
+.mini-code .g{color:var(--green)}.mini-code .m{color:var(--muted)}
+
+.split{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:stretch;max-width:900px;margin:0 auto 52px;position:relative;z-index:1}
+.split .fx{display:grid;place-items:center;font-family:var(--mono);color:var(--green-br);font-size:22px}
+.half{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px 24px;background:rgba(255,255,255,.03)}
+.half b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--green);display:block;margin-bottom:8px}
+.half p{font-size:13.5px;color:#B9C1CF;line-height:1.6}
+.half.you{border-color:rgba(87,192,143,.45)}
+@media(max-width:760px){.split{grid-template-columns:1fr}.split .fx{transform:rotate(90deg)}}
+
+.flow{display:grid;grid-template-columns:repeat(7,auto);gap:10px;align-items:stretch;justify-content:center;margin-bottom:52px}
+.flow .fx{display:grid;place-items:center;font-family:var(--mono);color:var(--green-br);font-size:16px}
+.fstep{background:var(--ink-2);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px;max-width:200px}
+.fstep b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--green-br);display:block;margin-bottom:5px}
+.fstep p{font-size:12.5px;color:#98A1B3;line-height:1.5}
+@media(max-width:900px){.flow{grid-template-columns:1fr;justify-items:stretch}.flow .fx{transform:rotate(90deg)}.fstep{max-width:none}}
+
+.term{background:var(--ink-2);border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;max-width:820px;margin:0 auto;position:relative;z-index:1;box-shadow:0 24px 56px -30px rgba(11,18,32,.5)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.16)}
+.term-bar span{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.4);letter-spacing:.08em}
+.term-body{padding:20px 22px;font-family:var(--mono);font-size:13px;line-height:1.85;color:#D7DCE5;min-height:236px}
+.term-body .p{color:#8B94A6}.term-body .g{color:var(--green-br)}.term-body .w{color:#fff}
+.t-line{opacity:0;transform:translateY(3px)}
+.t-line.show{opacity:1;transform:none;transition:opacity .22s ease,transform .22s ease}
+.term-run{margin:0 22px 22px;display:inline-flex}
+.term-run .btn{background:#fff;color:var(--ink);font-family:var(--mono);font-size:12.5px;padding:9px 18px}
+.term-run .btn:hover{background:var(--paper)}
+
+.scan{max-width:900px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 24px 56px -30px rgba(11,18,32,.25)}
+.scan-top{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--paper)}
+.scan-top .sigil{width:22px;height:22px;flex:none}
+.scan-top .sigil svg{display:block;width:100%;height:100%}
+.scan-top .name{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.02em}
+.scan-top .name span{color:var(--green)}
+.scan-top .tags{margin-left:auto;display:flex;gap:8px}
+.scan-top .tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);border:1px dashed var(--line);border-radius:5px;padding:3px 8px}
+.scan-top .tag.ind{color:var(--green);border:1px solid var(--green)}
+.scan-search{display:flex;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.scan-search input{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:11px 14px;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.scan-search input::placeholder{color:var(--muted);opacity:.8}
+.scan-search .btn{background:var(--ink);color:#fff;border-radius:9px;font-family:var(--mono);font-size:11px;padding:0 18px}
+.scan-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.scan-stats div{padding:14px 18px;border-right:1px solid var(--line)}
+.scan-stats div:last-child{border-right:none}
+.scan-stats b{font-family:var(--display);font-size:19px;font-weight:750;display:block;letter-spacing:-.02em}
+.scan-stats span{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--muted)}
+@media(max-width:640px){.scan-stats{grid-template-columns:repeat(2,1fr)}.scan-stats div:nth-child(2){border-right:none}}
+.scan-rows{font-family:var(--mono)}
+.scan-row{display:grid;grid-template-columns:64px 1fr auto auto;gap:14px;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line);font-size:11.5px}
+.scan-row.hide{display:none}
+.scan-empty{display:none;padding:16px 18px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.scan-row .ev{font-size:9px;letter-spacing:.12em;font-weight:700;border-radius:5px;padding:3px 0;text-align:center}
+.ev.issue{color:var(--green);border:1px solid var(--green)}
+.ev.revoke{color:#fff;background:var(--ink)}
+.ev.xfer{color:var(--muted);border:1px solid var(--line)}
+.scan-row .nm{color:var(--ink);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scan-row .nm s{color:var(--muted);text-decoration:none}
+.scan-row .tr{font-size:9.5px;letter-spacing:.08em;color:var(--muted)}
+.scan-row .st{font-size:9.5px;letter-spacing:.1em;font-weight:700}
+.st.ok{color:var(--green)}
+.st.rv{color:var(--ink)}
+.scan-row.flash{animation:rowin .5s ease}
+@keyframes rowin{from{background:rgba(26,107,78,.12)}to{background:transparent}}
+.scan-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 18px;background:var(--paper);border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted)}
+.scan-foot .btn{background:var(--ink);color:#fff;border-radius:8px;font-size:10.5px;padding:8px 14px;font-family:var(--mono)}
+.scan-note{max-width:900px;margin:14px auto 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--muted);text-align:center;line-height:1.8}
+@media(max-width:640px){.scan-row{grid-template-columns:56px 1fr auto}.scan-row .tr{display:none}}
+
+.gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:820px){.gloss{grid-template-columns:1fr}}
+.g-cell{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;transition:border-color .18s,box-shadow .18s}
+.g-cell:hover{border-color:#CBD4CC;box-shadow:0 12px 30px -20px rgba(26,107,78,.3)}
+.g-cell b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink);display:block}
+.g-cell p{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.55}
+.g-cell .role{margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--green)}
+
+.align{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:820px){.align{grid-template-columns:1fr}}
+.a-cell{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.a-cell h3{font-size:15.5px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+.a-row{display:grid;grid-template-columns:74px 1fr;gap:10px;font-size:12.5px;padding:5px 0;border-top:1px dashed var(--line)}
+.a-row b{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--green);padding-top:2px}
+.a-row span{color:var(--muted);line-height:1.5}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;position:relative}
+.step::before{counter-increment:step;content:"0" counter(step);font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--green);font-weight:700}
+.step h3{font-size:16px;margin:12px 0 8px}
+.step p{font-size:13.5px;color:var(--muted)}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.steps{grid-template-columns:1fr}}
+
+.org{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.org-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.org-grid{grid-template-columns:1fr}}
+.org-cell{border:1px solid var(--line);border-radius:14px;padding:26px;background:var(--paper)}
+.org-cell h3{font-size:16.5px;margin-bottom:10px;display:flex;align-items:baseline;gap:10px}
+.org-cell h3 span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--green)}
+.org-cell p{font-size:14px;color:var(--muted)}
+.org-cell ul{list-style:none;margin-top:12px;display:grid;gap:7px}
+.org-cell li{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);padding-left:16px;position:relative}
+.org-cell li::before{content:"—";position:absolute;left:0;color:var(--green)}
+.open-strip{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:18px 22px;display:flex;gap:10px 28px;flex-wrap:wrap;align-items:center;justify-content:center}
+.open-strip span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted)}
+.open-strip b{color:var(--green)}
+.org-quote{margin-top:44px;border-left:3px solid var(--green);padding:6px 0 6px 26px;max-width:760px}
+.org-quote p{font-family:var(--display);font-size:clamp(1.2rem,2.4vw,1.55rem);font-weight:600;line-height:1.42;letter-spacing:-.015em}
+.org-quote cite{display:block;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);font-style:normal;text-transform:uppercase}
+
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line);padding:20px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-weight:650;font-size:17px;letter-spacing:-.015em;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--green);font-size:18px;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:12px;color:var(--muted);font-size:15px;max-width:56ch}
+
+.cta-final{background:var(--ink);color:#fff;border-radius:20px;padding:68px 32px;text-align:center;position:relative;overflow:hidden}
+.cta-final::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background:repeating-radial-gradient(circle at 110% -30%,rgba(87,192,143,.12) 0 2px,transparent 2px 10px)}
+.cta-final h2{font-size:clamp(1.9rem,4.4vw,2.9rem);font-weight:760;letter-spacing:-.032em;line-height:1.08}
+.cta-final p{color:rgba(255,255,255,.62);margin:16px auto 30px;max-width:34em;font-size:16px}
+.email-row{display:flex;gap:10px;justify-content:center;max-width:460px;margin:0 auto;position:relative;z-index:1}
+.email-row input{flex:1;min-width:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:99px;color:#fff;padding:12px 20px;font-size:14.5px;font-family:var(--body)}
+.email-row input::placeholder{color:rgba(255,255,255,.45)}
+.email-row .btn{background:#fff;color:var(--ink)}
+.email-row .btn:hover{background:var(--paper)}
+.email-ok{display:none;font-family:var(--mono);font-size:13px;color:var(--green-br);letter-spacing:.04em;position:relative;z-index:1}
+.cta-final .alt{position:relative;z-index:1;display:inline-block;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.5)}
+.cta-final .alt:hover{color:#fff}
+@media(max-width:480px){.email-row{flex-direction:column}}
+
+footer{padding:52px 0 40px;border-top:1px solid var(--line);margin-top:92px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot h4{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:9px;font-size:13.5px;color:var(--muted)}
+.foot ul a:hover{color:var(--ink)}
+.status{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.status .live{display:inline-flex;align-items:center;gap:7px}
+.status .live i{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.4s infinite}
+@media(max-width:760px){.foot{grid-template-columns:1fr 1fr}}
+
+.rv{opacity:0;transform:translateY(22px)}
+.rv.in{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.16,.84,.34,1),transform .7s cubic-bezier(.16,.84,.34,1)}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv,.t-line{opacity:1!important;transform:none!important}
+  .verify-line{opacity:1;transform:none}
+  .passport{transform:none!important}
+}
+
+.doc{max-width:840px}.doc h1{font-size:clamp(30px,4.4vw,44px);line-height:1.06;margin:0 0 14px}.doc h2{font-size:clamp(21px,2.6vw,27px);margin:44px 0 10px}.doc h3{font-size:17px;margin:30px 0 8px}.doc p{margin:0 0 14px;color:var(--ink);opacity:.92}.doc li{margin:0 0 8px}.doc ul{padding-left:20px;margin:0 0 16px}.doc code{font-family:var(--mono);font-size:.86em;background:rgba(11,18,32,.06);padding:1px 5px;border-radius:4px}.doc .tbl{font-family:var(--mono);font-size:12.5px;line-height:1.65;background:rgba(11,18,32,.04);border:1px solid rgba(11,18,32,.1);border-radius:10px;padding:14px 16px;overflow-x:auto;white-space:pre;margin:0 0 16px}.doc hr{border:none;border-top:1px solid rgba(11,18,32,.12);margin:34px 0}
+/* ── shared chrome (merged design) ── */
+.announce{background:var(--ink);color:#E2E8F0;font-size:12.5px;text-align:center;padding:9px 16px}
+.announce a{color:var(--green-br);font-weight:600}
+.announce a:hover{text-decoration:underline}
+.mi{position:relative}
+.mi>button{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:var(--muted);padding:9px 12px;border-radius:10px}
+.mi>button:hover{color:var(--ink);background:rgba(11,18,32,.045)}
+.car{font-size:9px;opacity:.6}
+.dd{position:absolute;top:calc(100% + 6px);left:0;min-width:238px;background:var(--card);border:1px solid rgba(11,18,32,.14);border-radius:14px;padding:7px;display:none;box-shadow:0 24px 60px rgba(11,18,32,.12);z-index:70}
+.mi.open .dd{display:block}
+.dd a{display:block;font-size:13.5px;font-weight:500;color:var(--muted);padding:9px 11px;border-radius:9px}
+.dd a span{display:block;font-size:11.5px;font-weight:400;color:var(--muted);opacity:.85;margin-top:1px}
+.dd a:hover{background:rgba(26,107,78,.06);color:var(--ink)}
+.nav-r{margin-left:auto;display:flex;gap:10px;align-items:center}
+.openbadge{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;color:var(--muted);border:1px solid rgba(11,18,32,.14);border-radius:99px;padding:6px 13px;font-family:var(--body);letter-spacing:0}
+@media(min-width:901px){.nav-links{display:none!important}}
+@media(max-width:900px){.mi,.nav-hide{display:none}}
+/* try-it-live — the verify/forge widget, folded from the old demo page. Fully scoped under #try. */
+#try .demo{margin:30px auto 0;max-width:1000px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){#try .demo{grid-template-columns:1fr}}
+#try .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 24px 56px -34px rgba(11,18,32,.28)}
+#try .panel-h{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--paper)}
+#try .panel-h b{font-size:13px}#try .panel-h .tag{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 8px}
+#try .panel-b{padding:18px}
+#try label.fld{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin:12px 0 4px}
+#try label.fld:first-child{margin-top:0}
+#try select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:13px var(--mono)}
+#try .pf{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-family:var(--mono);font-size:11.5px;margin-top:6px}
+#try .pf span:nth-child(odd){color:var(--muted);text-transform:uppercase;font-size:9.5px;letter-spacing:.06em;padding-top:2px}
+#try .pf span:nth-child(even){color:var(--ink);word-break:break-all}
+#try .pf .chip{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;border-radius:99px;padding:2px 9px;font-family:var(--body)}
+#try .chip.ok{background:rgba(26,107,78,.1);color:var(--green)}#try .chip.no{background:rgba(168,58,44,.1);color:var(--red)}
+#try .chip.ok:before,#try .chip.no:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+#try .tamper{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px}
+#try .tamper .lead{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--amber);text-transform:uppercase;margin-bottom:10px}
+#try .tbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#try .tbtn{border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:9px 10px;text-align:left;font-size:12px;font-weight:600;color:var(--ink);transition:border-color .15s,background .15s}
+#try .tbtn:hover{border-color:var(--red)}
+#try .tbtn span{display:block;font-family:var(--mono);font-size:9px;font-weight:400;color:var(--muted);margin-top:2px;letter-spacing:.04em}
+#try .tbtn[aria-pressed="true"]{border-color:var(--red);background:rgba(168,58,44,.06)}
+#try .verdict-top{display:flex;align-items:center;gap:12px}
+#try .big{font-family:var(--display);font-size:34px;font-weight:800;letter-spacing:-.02em}
+#try .big.ok{color:var(--green)}#try .big.no{color:var(--red)}#try .big.pend{color:var(--muted)}
+#try .reason{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+#try .reason b{color:var(--red)}
+#try .dsteps{margin-top:16px;display:grid;gap:2px}
+#try .dstep{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:baseline;padding:7px 8px;border-radius:8px}
+#try .dstep:nth-child(odd){background:var(--paper)}
+#try .dstep .i{font-family:var(--mono);font-weight:700;font-size:13px}
+#try .dstep .i.ok{color:var(--green)}#try .dstep .i.no{color:var(--red)}#try .dstep .i.pend{color:var(--muted)}
+#try .dstep .t{font-size:12.5px;line-height:1.45}
+#try .dstep .t b{color:var(--ink)}#try .dstep .t code{font-family:var(--mono);font-size:11px;background:rgba(11,18,32,.05);padding:1px 4px;border-radius:3px}
+#try .run{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+#try .provenance{margin-top:14px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--muted);line-height:1.7}
+#try .provenance b{color:var(--green)}
+#try .err{background:rgba(168,58,44,.08);border:1px solid rgba(168,58,44,.3);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--red);margin:18px 0}
+#try .err code{font-family:var(--mono);background:rgba(168,58,44,.12);padding:1px 5px;border-radius:4px}
+#try .btn-green{background:var(--green);color:#fff}#try .btn-green:hover{filter:brightness(1.1)}
+/* in-your-own-code — the five-surface code window (moved from the landing, L1.1) */
+.codewin{max-width:840px;margin:0 auto;background:var(--ink);border:1px solid rgba(11,18,32,.2);border-radius:16px;overflow:hidden;box-shadow:0 28px 64px -30px rgba(11,18,32,.35)}
+.codewin-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;background:#111B30;border-bottom:1px solid rgba(245,246,243,.08)}
+.codewin-bar i{width:10px;height:10px;border-radius:50%;background:#2A3550;display:inline-block}
+.codewin-bar .cap{margin-left:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7C8698}
+.codewin-bar button{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:4px 10px;transition:color .15s,border-color .15s}
+.codewin-bar button:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.codewin .tabs{display:flex;gap:2px;padding:10px 12px 0;flex-wrap:wrap;background:#111B30}
+.codewin .tab{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:#7C8698;background:none;border:1px solid transparent;border-radius:9px 9px 0 0;padding:8px 15px}
+.codewin .tab:hover{color:#C6CDDA}
+.codewin .tab.on{color:var(--green-br);background:#0A101E;border-color:rgba(245,246,243,.1);border-bottom-color:#0A101E}
+.codewin .codebox{background:#0A101E;border-top:1px solid rgba(245,246,243,.1);padding:20px 22px;font-family:var(--mono);font-size:12.5px;line-height:1.85;color:#C9D2E0;white-space:pre;overflow-x:auto;min-height:224px}
+.codewin .codebox .c{color:#8B94A6}.codewin .codebox .g{color:var(--green-br)}.codewin .codebox .w{color:#F5F6F3}
+.code-foot{display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;margin:18px auto 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.code-foot b{color:var(--green)}
+/* pixel display type (site-wide rollout, looks only) */
+h1,.sec-head h2,.hero-h{font-family:'Pixelify Sans',var(--display);font-weight:700;letter-spacing:.005em;line-height:1.04}
+nav .btn{white-space:nowrap;flex:none}
+@media(max-width:1360px){.brand .mean{display:none}}
+nav .ndocs{font-size:14px;font-weight:500;color:var(--muted);padding:9px 12px;border-radius:10px}
+nav .ndocs:hover{color:var(--ink);background:rgba(11,18,32,.045)}
+@media(max-width:1150px){.nav-hide-mid{display:none}}
+@media(max-width:900px){nav .ndocs{display:none}}
+[id]{scroll-margin-top:92px}
+</style></head><body id="top">
+<a href="#main" class="skip">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="ainra-sigil">
+      <path d="M 98.4 33.5 A 48 48 0 1 0 78.5 13.6" fill="none" stroke="#0B1220" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 95.8 29.2 L 98.7 27.2 M 91.7 23.9 L 94.3 21.5 M 86.9 19.2 L 89.1 16.6" stroke="#0B1220" stroke-width="1" opacity=".5"/>
+      <path d="M 80.6 11.5 L 83.4 18.5 L 76.4 15.7 Z" fill="#0B1220"/>
+      <circle cx="79.6" cy="14.2" r="1.1" fill="#F5F6F3"/>
+      <circle cx="56" cy="56" r="36" stroke="#0B1220" stroke-width="1.2" fill="none"/>
+      <circle cx="56" cy="56" r="26" stroke="#0B1220" stroke-width="1.6" fill="none"/>
+      <ellipse cx="56" cy="56" rx="11" ry="26" stroke="#0B1220" stroke-width="1" fill="none"/>
+      <line x1="30" y1="56" x2="82" y2="56" stroke="#0B1220" stroke-width="1.1"/>
+      <path d="M33.5 43 h45 M33.5 69 h45" stroke="#0B1220" stroke-width="0.8" opacity="0.6"/>
+      <path d="M56 30 a26 26 0 0 1 26 26" stroke="#1A6B4E" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="56" cy="56" r="2.4" fill="#0B1220"/>
+    </g>
+    <g id="ainra-sigil-lt">
+      <path d="M 98.4 33.5 A 48 48 0 1 0 78.5 13.6" fill="none" stroke="#E7EAF0" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 95.8 29.2 L 98.7 27.2 M 91.7 23.9 L 94.3 21.5 M 86.9 19.2 L 89.1 16.6" stroke="#E7EAF0" stroke-width="1" opacity=".5"/>
+      <path d="M 80.6 11.5 L 83.4 18.5 L 76.4 15.7 Z" fill="#E7EAF0"/>
+      <circle cx="79.6" cy="14.2" r="1.1" fill="#0B1220"/>
+      <circle cx="56" cy="56" r="36" stroke="#E7EAF0" stroke-width="1.2" fill="none"/>
+      <circle cx="56" cy="56" r="26" stroke="#E7EAF0" stroke-width="1.6" fill="none"/>
+      <ellipse cx="56" cy="56" rx="11" ry="26" stroke="#E7EAF0" stroke-width="1" fill="none"/>
+      <line x1="30" y1="56" x2="82" y2="56" stroke="#E7EAF0" stroke-width="1.1"/>
+      <path d="M33.5 43 h45 M33.5 69 h45" stroke="#E7EAF0" stroke-width="0.8" opacity="0.6"/>
+      <path d="M56 30 a26 26 0 0 1 26 26" stroke="#57C08F" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <circle cx="56" cy="56" r="2.4" fill="#E7EAF0"/>
+    </g>
+    <g id="ainra-crest">
+      <circle cx="80" cy="80" r="78" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="80" cy="80" r="70" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="80" cy="80" r="46" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path id="crestpath" d="M 80 22 a 58 58 0 1 1 -0.01 0" fill="none"/>
+      <text font-family="B612 Mono,monospace" font-size="10.5" letter-spacing="3.2" fill="currentColor" font-weight="700"><textPath href="#crestpath" startOffset="0">· AINRA · THE IDENTITY LAYER · EST. GENESIS ·</textPath></text>
+      <circle cx="80" cy="80" r="6" fill="currentColor"/>
+    </g>
+  </defs>
+</svg>
+<div class="announce">The neutral identity stack for AI agents — engineering-complete, 745/745 conformance. <a href="foundation.html">Learn more →</a></div>
+<nav><div class="wrap nav-in">
+  <a class="brand" href="index.html" aria-label="AINRA — Agent Identity and Naming Registry Authority">
+    <span class="sigil" aria-hidden="true"><svg viewBox="0 0 112 112"><use href="#ainra-sigil"/></svg></span>
+    <span class="wm">AINRA</span><span class="mean">Agent Identity &amp; Naming<br>Registry Authority</span></a>
+  <a href="verify.html" class="ndocs">Verify</a>
+  <a href="get.html" class="ndocs">Network</a>
+  <a href="foundation.html" class="ndocs">Foundation</a>
+  <a href="docs.html" class="ndocs">Docs</a>
+  <div class="nav-r">
+    <a class="btn btn-ghost nav-hide" href="https://github.com/JacobJandon/ainra" rel="noopener" aria-label="Source repository on GitHub">GitHub ↗</a>
+    <a class="btn btn-ink nav-hide" href="foundation.html#access">Join the founding table</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">≡</button>
+  </div>
+  <div class="nav-links" id="navLinks"><a href="index.html">The root</a><a href="verify.html" style="color:var(--green)">Verify</a><a href="get.html">Network</a><a href="foundation.html">Foundation</a><a href="docs.html">Docs</a><a href="foundation.html#access">Join the founding table</a><a href="https://github.com/JacobJandon/ainra" rel="noopener">GitHub ↗</a></div>
+</div></nav>
+<main id="main"><section style="padding-top:118px"><div class="wrap">
+<div class="sec-head rv"><span class="eyebrow">For verifiers &amp; builders</span>
+<h1 class="hero-h">Verify anything.<br>Trust the source, not us.</h1>
+<p class="lede">Every check runs locally, from public artifacts, in milliseconds — offline-capable, with the root dark. Verification never reports to anyone.</p></div>
+<div class="flow rv">
+<div class="fstep"><b>1 · PRESENT</b><p>The agent's request arrives signed; the signature names its passport key.</p></div><div class="fx" aria-hidden="true">→</div>
+<div class="fstep"><b>2 · CHECK THE CHAIN</b><p>Passport → registrar → root, plus the authority chain to its anchor. Cached keys, milliseconds.</p></div><div class="fx" aria-hidden="true">→</div>
+<div class="fstep"><b>3 · CHECK STATUS</b><p>Fresh revocation proof and witness-cosigned log inclusion. In good standing, right now.</p></div><div class="fx" aria-hidden="true">→</div>
+<div class="fstep"><b>4 · DECIDE</b><p>Your policy: tier floor, accepted authority classes, required scopes, fail-open or closed.</p></div></div>
+<div class="org-grid" style="margin-top:34px">
+<div class="org-cell rv" style="grid-column:1/-1;padding:10px 26px"><p style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted)">PROPOSED VERIFICATION PROFILE — NOT YET IN THE STANDARD (v5.1 defines proof freshness only for L3–L4)</p></div>
+<div class="org-cell rv"><h3>F1 <span>PAYMENTS-GRADE</span></h3><p>Requires a signed fresh status head no older than 30 seconds. Missing or stale? The check fails closed.</p></div>
+<div class="org-cell rv"><h3>F2 <span>STANDARD</span></h3><p>Status list no older than five minutes, with signed deltas applied. Stale? Fails closed.</p></div>
+<div class="org-cell rv"><h3>F3 <span>OFFLINE</span></h3><p>Air-gapped verification against a cached list up to 24 hours old — still cryptographically complete, still fail-closed.</p></div></div>
+<div class="split rv" style="margin-top:34px">
+<div class="half"><b>REAL TODAY — THE REFERENCE CLI</b><p>A zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies, and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. <a href="ainra-cli-v0.3.0.zip" style="color:var(--green);font-weight:600">Download v0.3.0</a> and try to break it.</p></div>
+<div class="fx" aria-hidden="true">→</div>
+<div class="half you"><b>AT FIRST PUBLIC RELEASE — AHEAD</b><p>The full reference implementation: verify in five lines with the SDK, a fail-closed middleware gate, registrar-in-a-box in one command, and the complete conformance vector set — published under CC0, so conformance never needs anyone's permission.</p></div></div>
+<p class="scan-note rv">VERIFICATION IS LOCAL · IT NEVER PHONES HOME · CONFORMANCE IS CLAIMED AGAINST THE VECTOR SET THAT SHIPS AT FIRST PUBLIC RELEASE, NOT GRANTED BY US</p>
+</div></section></main>
+
+<section id="try" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Try it — 20 seconds, in this tab</span>
+      <h2>Verify an agent.<br>Then try to forge one.</h2>
+      <p class="lede">The actual AINRA verifier — the same code that passes all 745 conformance vectors — runs in your browser. Pick a real passport, then tamper with it and watch it fail closed with a named reason. Nothing is uploaded; the root is never contacted.</p>
+    </div>
+    <div id="demo" class="demo needs-js">
+      <div class="panel">
+        <div class="panel-h"><b>The passport</b><span class="tag" id="srcTag">STAGING · TEST-ROOT</span></div>
+        <div class="panel-b">
+          <label class="fld" for="pick">Choose a live lineage</label>
+          <select id="pick"></select>
+          <div class="pf" id="pfields"></div>
+          <div class="tamper">
+            <div class="lead">▸ Forge it — flip one field, then re-verify</div>
+            <div class="tbtns">
+              <button class="tbtn" data-t="claims" aria-pressed="false">Escalate the tier<span>rewrite the signed body → sig_invalid</span></button>
+              <button class="tbtn" data-t="sig" aria-pressed="false">Break the signature<span>corrupt one byte → sig_invalid</span></button>
+              <button class="tbtn" data-t="status" aria-pressed="false">Replay an old status<span>backdate the revocation list → stale_status</span></button>
+              <button class="tbtn" data-t="proof" aria-pressed="false">Forge the log proof<span>bad inclusion proof → not_logged</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><b>The verdict</b><span class="tag">RUNS ON YOUR MACHINE</span></div>
+        <div class="panel-b">
+          <div class="verdict-top" role="status" aria-live="polite" aria-atomic="true">
+            <div class="big pend" id="big">—</div>
+            <div class="reason" id="reason">choose a passport, then press Verify</div>
+          </div>
+          <div class="dsteps" id="steps"></div>
+          <div class="run">
+            <button class="btn btn-green" id="verifyBtn">▶ Verify in my browser</button>
+            <button class="btn btn-ghost" id="resetBtn" hidden>↺ Reset (undo forgery)</button>
+          </div>
+          <div class="provenance" id="prov"></div>
+        </div>
+      </div>
+    </div>
+    <div id="noscript-note" class="err" style="display:none" role="alert">This runs the verifier in your browser and needs JavaScript. The same verifier is also a downloadable CLI — <a href="ainra-cli-v0.3.0.zip" style="color:var(--green)">get it above</a>.</div>
+  </div>
+</section>
+
+<section id="code" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv" style="text-align:center;max-width:720px;margin:0 auto 36px">
+      <span class="eyebrow">In your own code</span>
+      <h2>Verify locally — one call, fail-closed.</h2>
+      <p class="lede" style="margin-top:12px">Point at the root-signed directory · verify the bundle (signature, authority, freshness, revocation, log inclusion) · gate on the verdict. VALID proceeds; anything else returns a named reason — the decision stays yours.</p>
+    </div>
+    <div class="codewin rv">
+      <div class="codewin-bar"><i></i><i></i><i></i><span class="cap" id="code-cap">verify.ts</span><button id="code-copy" type="button" aria-label="Copy code">COPY</button></div>
+      <div class="tabs" role="tablist" aria-label="Integration surface">
+        <button class="tab on" data-ct="ts" role="tab" aria-selected="true">TypeScript</button>
+        <button class="tab" data-ct="mw" role="tab" aria-selected="false">Middleware</button>
+        <button class="tab" data-ct="py" role="tab" aria-selected="false">Python</button>
+        <button class="tab" data-ct="rs" role="tab" aria-selected="false">Rust</button>
+        <button class="tab" data-ct="cli" role="tab" aria-selected="false">CLI</button>
+      </div>
+      <div class="codebox" id="codebox" role="tabpanel" aria-live="polite"><span class="c">// five lines — offline, root dark, fail-closed</span>
+<span class="c">// (the reference SDK ships in the CLI bundle — npm publish at genesis)</span>
+<span class="w">import</span> { Verifier } <span class="w">from</span> <span class="g">"@ainra/sdk"</span>;
+
+<span class="w">const</span> v = <span class="w">await</span> Verifier.fromDirectory(dir);
+<span class="w">const</span> verdict = v.verify(bundle, now);
+
+<span class="c">// → { status: "VALID" }</span>
+<span class="c">//   or a named reason: revoked | stale_status | …</span></div>
+    </div>
+    <div class="code-foot rv"><span>SAME VERDICT, SAME REASON — <b>4 IMPLEMENTATIONS, 745/745</b></span><span>ROOT OFFLINE · <b>NO CALLS TO US</b></span><span>FIRST FAILURE WINS · <b>FAIL-CLOSED</b></span></div>
+  </div>
+</section>
+
+<section style="padding-top:0" id="authority">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">The authority model</span>
+      <h2>Who stands behind it —<br>declared, provable, honest.</h2>
+      <p class="lede">Every passport names its authority class. Delegation can only narrow, chains stay provable to their anchor at any depth — and even a fully autonomous agent gets a truthful class of its own. Select one:</p>
+    </div>
+    <div class="rv">
+      <div class="rail" role="group" aria-label="Authority classes">
+        <button data-a="0" aria-pressed="true">A1 HUMAN</button>
+        <button data-a="1">A2 ORGANIZATION</button>
+        <button data-a="2">A3 AGENT-DELEGATED</button>
+        <button data-a="3">A4 AUTONOMOUS</button>
+      </div>
+      <div class="rail-info">
+        <b id="authTier">A1 · HUMAN-DELEGATED</b>
+        <p id="authText">A verified person stands behind the agent — proven in zero-knowledge, so accountability exists while privacy stays intact. A signed consent mandate sets scopes, time limits, and spend ceilings; the person can revoke it at any moment, everywhere at once.</p>
+      </div>
+      <div class="mini-code">act_chain: [<span class="g">principal</span> → <span class="g">agent:orchestrator@3</span> → <span class="g">agent:invoicing@4.2.1</span>]   <span class="m">// scopes may only narrow — provable to the anchor at any depth</span></div>
+    </div>
+  </div>
+</section>
+<section id="align" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">A universal standard for current players</span>
+      <h2>Keep what you built.<br>Gain everyone else.</h2>
+      <p class="lede">The standard belongs to no vendor. Every existing layer keeps its product and its customers — and plugs in where it already looks things up.</p>
+    </div>
+    <div class="align">
+      <div class="a-cell rv"><h3>Payment networks</h3>
+        <div class="a-row"><b>KEEP</b><span>Their agent programs, tokens, and checkout flows.</span></div>
+        <div class="a-row"><b>PLUG IN</b><span>Key-directory lookups resolve through the root.</span></div>
+        <div class="a-row"><b>GAIN</b><span>Cross-network recognition and an instant, shared switch.</span></div>
+      </div>
+      <div class="a-cell rv"><h3>Edge &amp; bot defense</h3>
+        <div class="a-row"><b>KEEP</b><span>Signature checks and traffic policy at the edge.</span></div>
+        <div class="a-row"><b>PLUG IN</b><span>Mirror the root directory behind existing checks.</span></div>
+        <div class="a-row"><b>GAIN</b><span>Operator, tier, and live status behind every signature — a welcome lane for good agents.</span></div>
+      </div>
+      <div class="a-cell rv"><h3>Enterprise identity</h3>
+        <div class="a-row"><b>KEEP</b><span>Internal agent directories, ownership, and audit.</span></div>
+        <div class="a-row"><b>PLUG IN</b><span>Mint a passport the moment an agent crosses the boundary.</span></div>
+        <div class="a-row"><b>GAIN</b><span>Trust that survives outside the walls, with the chain of authority intact.</span></div>
+      </div>
+      <div class="a-cell rv"><h3>Merchants, apps &amp; APIs</h3>
+        <div class="a-row"><b>KEEP</b><span>Their whole stack, unchanged.</span></div>
+        <div class="a-row"><b>PLUG IN</b><span>One verify middleware plus a tier floor of your choosing.</span></div>
+        <div class="a-row"><b>GAIN</b><span>Welcome good agents and price risk by tier and authority class.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding-top:0" id="tiers">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Assurance tiers</span>
+      <h2>Five levels. You set the floor.</h2>
+      <p class="lede">The root grades how much verification stands behind a passport; every verifier picks its own floor. Existence at L0 is guaranteed by charter, and each level up earns more consequence.</p>
+    </div>
+    <div class="rv">
+      <div class="rail" role="group" aria-label="Assurance tiers">
+        <button data-t="0">L0 DECLARED</button>
+        <button data-t="1">L1 ANCHORED</button>
+        <button data-t="2">L2 OPERATED</button>
+        <button data-t="3" aria-pressed="true">L3 BACKED</button>
+        <button data-t="4">L4 REGULATED</button>
+      </div>
+      <div class="rail-info">
+        <b id="railTier">L3 · BACKED</b>
+        <p id="railText">KYB-verified operator + zero-knowledge principal + liability insurance attestation. The floor for consumer-scale payments and contract execution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="index.html" aria-label="AINRA — Agent Identity and Naming Registry Authority">
+          <span class="sigil" style="width:38px;height:38px" aria-hidden="true"><svg viewBox="0 0 112 112"><use href="#ainra-sigil"/></svg></span>
+          <span class="wm" style="font-size:17px">AINRA</span>
+          <span class="mean">Agent Identity &amp; Naming<br>Registry Authority</span>
+        </a>
+        <p style="margin-top:16px;font-size:13px;color:var(--muted);max-width:26ch">The neutral root of AI agent identity. Est. 2026.</p>
+      </div>
+      <div>
+        <h4>Protocol</h4>
+        <ul>
+          <li><a href="docs.html#standard">The standard</a></li>
+          <li><a href="ainra-cli-v0.3.0.zip">Reference CLI v0.3.0</a></li>
+          <li><a href="https://github.com/JacobJandon/ainra" rel="noopener">Source — the full reference impl</a></li>
+          <li><a href="index.html#top">The passport</a></li>
+          <li><a href="#authority">Authority model</a></li>
+          <li><a href="docs.html">Docs</a></li>
+          </ul>
+      </div>
+      <div>
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="#align">Where you plug in</a></li>
+          <li><a href="#tiers">Assurance tiers</a></li>
+          <li><a href="index.html#integrate">Onboard an agent</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Root</h4>
+        <ul>
+          <li><a href="index.html#root">What the root does</a></li>
+          <li><a href="docs.html#charter">Charter</a></li>
+          <li><a href="foundation.html#plan">The plan</a></li>
+          <li><a href="docs.html#faq">FAQ</a></li>
+          <li><a href="foundation.html#access">Get involved</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="status">
+      <span class="live"><i aria-hidden="true"></i> ROOT STATUS: PRE-CEREMONY</span>
+      <span>LOGS SEALED: 0 · WITNESSES: RECRUITING · SPEC PUBLIC · CLI v0.3.0</span>
+      <span>ISSUES NOTHING · SCORES NOTHING · SEES NO PII · FAVORS NO ONE</span>
+    
+      <span class="openbadge"><svg style="width:26px;height:26px;color:#8A93A0" viewBox="0 0 160 160" aria-hidden="true"><use href="#ainra-crest"/></svg>An open standard · held by no one</span></div>
+  </div>
+</footer>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = matchMedia('(pointer: coarse)').matches;
+  const $ = id => document.getElementById(id);
+
+  /* mobile menu */
+  const burger=$('burger'), links=$('navLinks');
+  if(burger&&links){
+    burger.addEventListener('click',()=>{const open=links.classList.toggle('open');burger.setAttribute('aria-expanded',open?'true':'false');});
+    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('open');burger.setAttribute('aria-expanded','false');}));
+  }
+
+  /* agent portrait — deterministic identicon from passport number */
+  const g=$('portrait');
+  if(g){
+    let h=0; const seed='8F2EC41AINRA';
+    for(let i=0;i<seed.length;i++){h=(h*31+seed.charCodeAt(i))>>>0;}
+    for(let r=0;r<7;r++){
+      const row=[];
+      for(let c=0;c<4;c++){h=(h*1103515245+12345)>>>0;row.push(h%100);}
+      for(let c=0;c<7;c++){const v=row[c<4?c:6-c], el=document.createElement('i');if(v<42)el.className='on';else if(v<52)el.className='gn';g.appendChild(el);}
+    }
+  }
+
+  /* MRZ — two lines of exactly 44 characters */
+  const mrzEl=$('mrz'), vline=$('verifyLine');
+  if(mrzEl&&vline){
+    const L1='P<AINACME<CORP<<INVOICING<AGENT<<<<<<<<<<<<<';
+    const L2='8F2EC41AP3AIN2604117L3<<<HUMANZK1VERIFIED<04';
+    const done=()=>{vline.classList.add('in');};
+    if(reduce){mrzEl.textContent=L1+'\n'+L2;done();}
+    else{
+      let i=0; const full=L1+'\n'+L2;
+      const caret=document.createElement('span'); caret.className='caret';
+      (function tick(){mrzEl.textContent=full.slice(0,i);mrzEl.appendChild(caret);i++;if(i<=full.length)setTimeout(tick,13);else{caret.remove();setTimeout(done,220);}})();
+    }
+  }
+
+  /* subtle pointer tilt */
+  const card=$('passportCard');
+  if(card && !reduce && !touch){
+    const stage=card.parentElement;
+    stage.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;card.style.transform=`rotateY(${x*4}deg) rotateX(${-y*4}deg)`;});
+    stage.addEventListener('mouseleave',()=>{card.style.transform='none';});
+  }
+
+  /* copy command */
+
+  /* reveals */
+  // reveal on scroll — position-based so content can NEVER stay stuck hidden (an IntersectionObserver
+  // misses elements you scroll past instantly: End key, anchor jumps, back-nav scroll restoration, fast flicks)
+  var rvEls=[].slice.call(document.querySelectorAll('.rv'));
+  rvEls.forEach(function(el){try{var gg=[].slice.call(el.parentElement.children).filter(function(c){return c.classList.contains('rv')});el.style.transitionDelay=(Math.min(gg.indexOf(el),6)*70)+'ms';}catch(e){}});
+  if(reduce){ rvEls.forEach(function(el){el.classList.add('in');}); }
+  else{
+    var reveal=function(){ var vh=innerHeight||document.documentElement.clientHeight;
+      var atBottom=(scrollY+vh)>=(document.documentElement.scrollHeight-4);
+      for(var i=rvEls.length-1;i>=0;i--){ if(atBottom||rvEls[i].getBoundingClientRect().top<vh*0.92){ rvEls[i].classList.add('in'); rvEls.splice(i,1); } } };
+    reveal(); addEventListener('scroll',reveal,{passive:true}); addEventListener('resize',reveal,{passive:true}); addEventListener('load',reveal);
+    setTimeout(function(){while(rvEls.length){rvEls.pop().classList.add('in');}},4000); // absolute safety net — nothing can stay permanently hidden (back-nav restore, anchor jumps, etc.)
+  }
+
+  /* stat counters */
+  const so=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return; so.unobserve(e.target);
+    const el=e.target, end=+el.dataset.count;
+    if(reduce){el.textContent=end.toLocaleString();return;}
+    const t0=performance.now(), dur=1100;
+    (function step(t){const p=Math.min(1,(t-t0)/dur), v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=v.toLocaleString();if(p<1)requestAnimationFrame(step);})(t0);
+  }),{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>so.observe(el));
+
+  /* terminal */
+  const termOut=$('termOut');
+  if(termOut){
+    const lines=[...termOut.querySelectorAll('.t-line')];
+    const play=()=>{lines.forEach(l=>l.classList.remove('show'));if(reduce){lines.forEach(l=>l.classList.add('show'));return;}lines.forEach((l,i)=>setTimeout(()=>l.classList.add('show'),260+i*340));};
+    const to=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){play();to.unobserve(e.target);}}),{threshold:.4});
+    to.observe(termOut);
+    const rb=$('runBtn'); if(rb)rb.addEventListener('click',play);
+  }
+
+  /* authority rail */
+  const authData=[
+    ['A1 · HUMAN-DELEGATED','A verified person stands behind the agent — proven in zero-knowledge, so accountability exists while privacy stays intact. A signed consent mandate sets scopes, time limits, and spend ceilings; the person can revoke it at any moment, everywhere at once.'],
+    ['A2 · ORGANIZATION-DELEGATED','A verified legal entity is the principal. The mandate is an organizational authorization whose accountability resolves to responsible officers through the registrar of record.'],
+    ['A3 · AGENT-DELEGATED','Another passported agent is the principal. Every hop is dual-signed, scopes can only narrow, depth is capped — and the whole chain stays provable back to its ultimate anchor from the credential alone.'],
+    ['A4 · AUTONOMOUS','Fully self-directed — and declared truthfully as such. Requirements: a reachable governance endpoint, a dead-man renewal timer, and a bond, insurance, or steward of record to climb the tiers. Verifiers choose how much A4 to accept; honest existence is always guaranteed.']
+  ];
+  const authBtns=[...document.querySelectorAll('[data-a]')];
+  authBtns.forEach(b=>b.addEventListener('click',()=>{
+    authBtns.forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    const d=authData[+b.dataset.a], at=$('authTier'), ax=$('authText');
+    if(at)at.textContent=d[0]; if(ax)ax.textContent=d[1];
+  }));
+
+  /* tier rail */
+  const tierData=[
+    ['L0 · DECLARED','Valid keypair + logged registration + revocation endpoint. Permissionless by charter — anyone, including fully on-chain agents. Sandbox and attributed-crawl access.'],
+    ['L1 · ANCHORED','L0 plus verified control of a domain or established wallet history. Rate-limited APIs and low-value machine micropayments.'],
+    ['L2 · OPERATED','L1 plus a KYB-verified legal operator, declared model lineage, and a soulbound lineage. Standard commerce and B2B data exchange.'],
+    ['L3 · BACKED','KYB-verified operator + zero-knowledge principal + liability insurance attestation. The floor for consumer-scale payments and contract execution.'],
+    ['L4 · REGULATED','L3 plus sector license, independent audit, and third-party work validation. High-value autonomous transactions and critical infrastructure.']
+  ];
+  const railBtns=[...document.querySelectorAll('[data-t]')];
+  railBtns.forEach(b=>b.addEventListener('click',()=>{
+    railBtns.forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    const d=tierData[+b.dataset.t], rt=$('railTier'), rx=$('railText');
+    if(rt)rt.textContent=d[0]; if(rx)rx.textContent=d[1];
+  }));
+
+})();
+</script>
+<script>
+/* shared chrome: dropdown menus */
+(function(){
+  var closeDD=function(){document.querySelectorAll('.mi.open').forEach(function(m){m.classList.remove('open');var bb=m.querySelector('[data-dd]');if(bb)bb.setAttribute('aria-expanded','false');});};
+  document.querySelectorAll('[data-dd]').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();
+    var mi=b.parentElement,was=mi.classList.contains('open');
+    closeDD();
+    if(!was){mi.classList.add('open');b.setAttribute('aria-expanded','true');}});});
+  document.addEventListener('click',closeDD);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDD();});
+
+  /* in-your-own-code tabs (moved from the landing) */
+  var CODE_S={
+ts:'<span class="c">// five lines — offline, root dark, fail-closed</span>\n<span class="c">// (the reference SDK ships in the CLI bundle — npm publish at genesis)</span>\n<span class="w">import</span> { Verifier } <span class="w">from</span> <span class="g">"@ainra/sdk"</span>;\n\n<span class="w">const</span> v = <span class="w">await</span> Verifier.fromDirectory(dir);\n<span class="w">const</span> verdict = v.verify(bundle, now);\n\n<span class="c">// → { status: "VALID" }</span>\n<span class="c">//   or a named reason: revoked | stale_status | …</span>',
+mw:'<span class="c">// gate any route on a verified passport</span>\n<span class="w">import</span> { ainraGate, Verifier } <span class="w">from</span> <span class="g">"@ainra/middleware"</span>;\n\napp.use(<span class="g">"/agent"</span>, ainraGate(verifier));\n\n<span class="c">// invalid agents receive 403</span>\n<span class="c">// + x-ainra-reason header, fail-closed</span>',
+py:'<span class="c"># an independent verifier — offline, fail-closed</span>\n<span class="c"># pip install -e packages/sdk-py  (PyPI at genesis)</span>\n<span class="c"># agrees with core on every vector</span>\n<span class="w">from</span> ainra <span class="w">import</span> Verifier\n\nv = Verifier.from_directory(dir, root_ed, root_slh)\nverdict = v.verify(bundle, now)\n\n<span class="c"># → verdict.valid is True</span>\n<span class="c">#   or verdict.reason: revoked | stale_status | …</span>',
+rs:'<span class="c">// the reference core — pure, no I/O, no clock</span>\n<span class="w">let</span> verdict = ainra_core::verify(\n    &bundle, &directory, now,\n);\n\n<span class="c">// 9 documented checks, first failure wins;</span>\n<span class="c">// four implementations agree 745/745</span>',
+cli:'<span class="c"># the whole lifecycle, locally, no server</span>\n$ ainra init ./reg registrar-07\n$ ainra issue ./reg --operator acme \\\n    --lineage invoicing --version 1.0.0 --tier L2\n$ ainra verify ./reg \\\n    ainra:registrar-07:acme:invoicing@1.0.0\n<span class="g">VALID</span>   <span class="c"># the real verifier\u2019s output</span>'
+  };
+  var CODE_CAP={ts:'verify.ts',mw:'gate.ts',py:'verify.py',rs:'verify.rs',cli:'terminal'};
+  var cb=document.getElementById('codebox'), ccap=document.getElementById('code-cap'), ccopy=document.getElementById('code-copy');
+  if(cb){
+    var setCodeTab=function(k){cb.innerHTML=CODE_S[k];if(ccap)ccap.textContent=CODE_CAP[k];
+      document.querySelectorAll('.codewin .tab').forEach(function(t){var on=t.dataset.ct===k;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});};
+    document.querySelectorAll('.codewin .tab').forEach(function(t){t.addEventListener('click',function(){setCodeTab(t.dataset.ct);});});
+    if(ccopy)ccopy.addEventListener('click',function(){(navigator.clipboard?navigator.clipboard.writeText(cb.textContent):Promise.reject()).then(function(){ccopy.textContent='COPIED';setTimeout(function(){ccopy.textContent='COPY';},1400);},function(){});});
+  }
+})();
+</script>
+<script type="module">
+// try-it-live — folded from the old demo page. The real @ainra/sdk verifier, in this tab, over specimen fixtures.
+let runVector;
+const $=(s)=>document.querySelector(s);
+function showLoadError(msg){ const d=$("#demo"); if(d) d.style.display="none"; const n=$("#noscript-note"); if(n){ n.style.display="block"; n.textContent=msg+" The same verifier is also a downloadable CLI — get it above."; } }
+const REASONS={
+  sig_invalid:"a required signature failed to verify", alg_downgrade:"a mandated hybrid signature (Ed25519 or ML-DSA-65) was absent or broken",
+  expired:"the validity window has ended", not_yet_valid:"presented before its validity window opens",
+  revoked:"revoked in the registrar's signed status list", mandate_revoked:"a mandate in the subtree is revoked",
+  chain_widening:"a delegation hop granted more than its parent", chain_expired:"a hop outlived its parent",
+  not_logged:"no Merkle inclusion proof to a signed checkpoint — it cannot prove it was logged", checkpoint_invalid:"the checkpoint signature did not verify",
+  stale_status:"the revocation material is not authentic or is too old — fails closed", name_malformed:"a name violated the namespace grammar",
+  ceiling_exceeded:"a capability exceeds the scope ceiling", unknown_registrar:"the issuer is not in the accredited directory",
+  schema_violation:"the passport violated the schema (missing MUST or forbidden field)",
+};
+const enc=(u)=>btoa(String.fromCharCode(...u)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64u=(s)=>{s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";const b=atob(s);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;};
+let REG=null, NOW=0, ROWS=[], sel=null, tamper=new Set();
+function toWire(rec,R){
+  return { name:rec.sub, expect:{},
+    anchors:{[R.registrar]:{issuer_key:R.accreditation.issuer_key, log_root_key:R.accreditation.log_root_key}},
+    presentation:{
+      claims:enc(new TextEncoder().encode(rec.claims)),
+      issuer_sig:{ed25519:rec.issuer_sig_ed25519, mldsa65:rec.issuer_sig_mldsa65},
+      now:NOW, chain_keys:rec.chain_keys, hop_proofs:rec.hop_proofs,
+      status_list:R.status_list.status_list_b64, status_len:R.status_list.bit_len, status_issued_at:R.status_list.issued_at,
+      freshness:"F3", checkpoint:{origin:rec.log_origin, size:rec.checkpoint_size, root:rec.checkpoint_root},
+      checkpoint_sig:rec.checkpoint_sig, leaf_index:rec.leaf_index, inclusion_proof:rec.inclusion_proof,
+      mandate_revocations:[], revoked_delegates:[],
+    }};
+}
+function forge(wire){
+  const p=wire.presentation;
+  if(tamper.has("claims")){ const c=JSON.parse(new TextDecoder().decode(b64u(p.claims))); c.tier=(c.tier==="L4")?"L3":"L4"; p.claims=enc(new TextEncoder().encode(JSON.stringify(c))); }
+  if(tamper.has("sig")){ const s=b64u(p.issuer_sig.ed25519); s[0]^=0xff; p.issuer_sig.ed25519=enc(s); }
+  if(tamper.has("status")){ p.status_issued_at=1; }
+  if(tamper.has("proof")){ p.inclusion_proof=[enc(new Uint8Array(32))]; }
+  return wire;
+}
+const STEP_LABELS=[
+  ["schema","schema + name grammar"],["issuer","issuer accredited in the directory"],["window","validity window (now within nbf…exp)"],
+  ["sig","hybrid signatures — Ed25519 + ML-DSA-65"],["chain","delegation chain narrows"],["status","revocation status is fresh &amp; authentic"],
+  ["log","logged-before-valid — Merkle proof to checkpoint"],
+];
+const REASON_STEP={name_malformed:0,schema_violation:0,unknown_registrar:1,not_yet_valid:2,expired:2,sig_invalid:3,alg_downgrade:3,ceiling_exceeded:4,chain_widening:4,chain_expired:4,revoked:5,mandate_revoked:5,stale_status:5,not_logged:6,checkpoint_invalid:6};
+function renderFields(rec){
+  const rows=[["name",rec.sub],["tier",rec.tier],["authority",rec.auth_class],["registrar",rec.registrar],
+    ["standing", rec.revoked?'<span class="chip no">REVOKED</span>':'<span class="chip ok">ACTIVE</span>'],
+    ["logged","leaf "+String(rec.checkpoint_root||"").slice(0,14)+"…"]];
+  $("#pfields").innerHTML=rows.map(([k,v])=>`<span>${k}</span><span>${v}</span>`).join("");
+}
+async function verify(){
+  if(!sel) return;
+  const {rec,R}=sel;
+  $("#big").textContent="…"; $("#big").className="big pend"; $("#reason").textContent="running the real verifier…";
+  await new Promise(r=>setTimeout(r,180));
+  let wire=forge(toWire(rec,R));
+  let v;
+  try{ v=runVector(wire); }
+  catch(e){
+    $("#big").textContent="ERROR"; $("#big").className="big no";
+    $("#reason").innerHTML="the verifier threw an unexpected exception — this is a demo bug, not a verdict on the passport";
+    $("#steps").innerHTML=""; $("#prov").innerHTML="verifier <b>@ainra/sdk</b> · exception: "+String(e&&e.message||e).slice(0,120);
+    return;
+  }
+  const ok=v.verdict==="valid";
+  $("#big").textContent=ok?"VALID":"INVALID"; $("#big").className="big "+(ok?"ok":"no");
+  $("#reason").innerHTML=ok?"all nine checks passed — genuine, in-window, in-scope, logged, not revoked":
+    `failed at <b>${v.reason}</b> — ${REASONS[v.reason]||""}`;
+  const failStep = ok?99:(REASON_STEP[v.reason]??6);
+  $("#steps").innerHTML=STEP_LABELS.map(([id,label],i)=>{
+    const state = i<failStep?"ok":(i===failStep?"no":"pend");
+    const icon = state==="ok"?"✓":state==="no"?"✗":"·";
+    return `<div class="dstep"><span class="i ${state}">${icon}</span><span class="t">${label}${i===failStep&&!ok?` <b>← ${v.reason}</b>`:""}</span></div>`;
+  }).join("");
+  const provRoot = rec.checkpoint_root||"";
+  $("#prov").innerHTML = `verifier <b>@ainra/sdk</b> · 9 checks · verdict computed in this tab · checkpoint root <b>${provRoot.slice(0,20)}…</b> · ${tamper.size?`forgery applied: ${[...tamper].join(", ")}`:"unmodified passport"}`;
+  $("#resetBtn").hidden = tamper.size===0;
+}
+function select(sub){
+  const row=ROWS.find(r=>r.rec.sub===sub); sel=row; tamper.clear();
+  document.querySelectorAll(".tbtn").forEach(b=>b.setAttribute("aria-pressed","false"));
+  renderFields(row.rec);
+  $("#big").textContent="—"; $("#big").className="big pend"; $("#reason").textContent="press Verify to run the checker"; $("#steps").innerHTML=""; $("#prov").innerHTML=""; $("#resetBtn").hidden=true;
+}
+async function boot(){
+  if(!$("#demo")) return;
+  try{ ({ runVector } = await import("./vendor/ainra-sdk.js")); }
+  catch(e){ showLoadError("Could not load the in-browser verifier (vendor/ainra-sdk.js)."); return; }
+  try{ REG=await (await fetch("data/registry.json",{cache:"no-store"})).json(); }
+  catch(e){ showLoadError("Could not load the demo data (data/registry.json). Serve this page over http (e.g. `python3 -m http.server` in site/)."); return; }
+  NOW=REG.generated_window?.verified_at ?? 0;
+  for(const R of REG.registrars) for(const e of R.records) ROWS.push({rec:e.record, R});
+  const opt=(r)=>`<option value="${r.rec.sub}">${r.rec.revoked?"⊘ ":r.rec.hops?.length?"⛓ ":"✓ "}${r.rec.sub}${r.rec.revoked?"  (revoked)":r.rec.hops?.length?"  (delegated)":""}</option>`;
+  const valids=ROWS.filter(r=>!r.rec.revoked&&!r.rec.hops?.length), deleg=ROWS.filter(r=>r.rec.hops?.length), revs=ROWS.filter(r=>r.rec.revoked);
+  const ordered=[...valids.slice(0,1),...deleg.slice(0,1),...revs.slice(0,1),...valids.slice(1),...deleg.slice(1),...revs.slice(1)].filter(Boolean);
+  $("#pick").innerHTML=ordered.map(opt).join("");
+  $("#pick").addEventListener("change",e=>select(e.target.value));
+  document.querySelectorAll(".tbtn").forEach(b=>b.addEventListener("click",()=>{
+    const t=b.dataset.t, on=b.getAttribute("aria-pressed")==="true";
+    if(on){tamper.delete(t);b.setAttribute("aria-pressed","false");} else {tamper.add(t);b.setAttribute("aria-pressed","true");}
+    verify();
+  }));
+  $("#verifyBtn").addEventListener("click",verify);
+  $("#resetBtn").addEventListener("click",()=>{select(sel.rec.sub);});
+  select(ordered[0].rec.sub);
+}
+boot();
+</script>
+</body></html>
