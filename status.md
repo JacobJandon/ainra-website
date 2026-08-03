@@ -131,7 +131,7 @@ Adoption plateaus and pressure met with pre-decided responses. Principles fixed,
 ### Disappear
 THE GOAL
 
-Verification as boring as the clock — everywhere, invisible, with a public record behind it. Beyond that: generational key-succession ceremonies, fork-readiness drills, and a managed-migration clause — if a legitimately adopted successor standard emerges, the root's final duty is an orderly migration into it. The standard outlives the institution; that is planned, not feared.
+Disappear means become unnecessary, not vanish. The goal isn't an ecosystem that depends on us; it's one that no longer needs us — that's how you know the job was done. A relay race, not a solo marathon: take the baton, run your section, hand it off, and somebody else carries it on. From outside it looks like verification as boring as the clock. Beyond that: generational key-succession ceremonies, fork-readiness drills, and a managed-migration clause — if a legitimately adopted successor emerges, the root's final duty is an orderly migration into it. The standard outlives whoever carries it; that is planned, not feared.
 
 Take a founding seat →
 What exists today
