@@ -51,6 +51,46 @@ The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not
 
 NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
 
+## Soon, your AI will act for you.
+
+Seven questions nobody can answer about an agent today — and the passport answers all of them with signed facts.
+
+- Who created this agent?
+
+- Who controls it now?
+
+- What is it allowed to do?
+
+- Has it been verified — or revoked?
+
+- Is it pretending to be another?
+
+- Can it legally act for a company?
+
+- Can I safely delegate to it?
+
+Tomorrow's checks look like today's — KYC for people, KYB for companies, KYA for agents: every acting AI carrying a scannable ID with a machine-readable zone.
+
+## Everything orbits the root.
+
+Registrars, passport services, ID schemes — each an island today, like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
+
+THE ROOT — AINRA
+
+Keys, rules, revocation, logs. Everything chains up to it; every check stays local and fast.
+
+RING 1 · INDEPENDENT REGISTRARS
+
+Separate organizations issuing under identical published rules.
+
+RING 2 · AGENTS
+
+Each carries a passport chained to the root; its running copies get short-lived keys.
+
+RING 3 · VERIFIERS
+
+Anyone deciding whether to trust an agent — the check runs on their own machine, and each picks its own bar.
+
 ## The organization.
 
 A member-governed, non-profit federation — the same species of body that gave sport, aviation, and the internet their neutral coordinators. It exists to unite what is already fragmenting: today's agent registrars, passport services, and ID schemes each run their own island, and the federation is the neutral ground where they become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
@@ -72,6 +112,8 @@ Transparency
 ### Everything material is public.
 
 Statutes, minutes, budgets, audits, fee schedules, and ceremonies. The root records facts — never money, personal data, reputation, or judgment.
+
+AINRA is a proposal for that neutral root — one open standard anyone can run, own, or fork. You are not asked to trust its founders; everything is public.
 
 ## Genesis: how the root is born.
 
