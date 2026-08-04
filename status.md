@@ -53,7 +53,7 @@ NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR T
 
 ## The organization.
 
-A member-governed, non-profit federation — the same species of body that gave sport, aviation, and the internet their neutral coordinators. Legitimacy flows from members; the federation never competes with them.
+A member-governed, non-profit federation — the same species of body that gave sport, aviation, and the internet their neutral coordinators. It exists to unite what is already fragmenting: today's agent registrars, passport services, and ID schemes each run their own island, and the federation is the neutral ground where they become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
 
 Members
 
