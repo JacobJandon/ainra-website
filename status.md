@@ -53,7 +53,7 @@ NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR T
 
 ## Everything orbits the root.
 
-Identity isn't discovered, it's assembled — from pieces that already exist: a name, an operator, an issuer's signature, an authority chain, a log entry. Registrars, passport services and ID schemes each hold some of those pieces on their own island today, like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
+Registrars, passport services and ID schemes each hold some of the pieces, on their own island — like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
 
 THE ROOT — AINRA
 
@@ -73,7 +73,7 @@ Anyone deciding whether to trust an agent — the check runs on their own machin
 
 ## The organization.
 
-A member-governed, non-profit federation — the same species of body that gave sport, aviation, and the internet their neutral coordinators. It exists to unite what is already fragmenting: today's agent registrars, passport services, and ID schemes each run their own island, and the federation is the neutral ground where they become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
+A member-governed, non-profit federation — the same species of body that gave sport, aviation and the internet their neutral coordinators. It is the neutral ground where competing issuers become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
 
 Members
 
@@ -153,7 +153,7 @@ Adoption plateaus and pressure met with pre-decided responses. Principles fixed,
 ### Disappear
 THE GOAL
 
-Disappear means become unnecessary, not vanish. The goal isn't an ecosystem that depends on us; it's one that no longer needs us — that's how you know the job was done. A relay race, not a solo marathon: take the baton, run your section, hand it off, and somebody else carries it on. From outside it looks like verification as boring as the clock. Beyond that: generational key-succession ceremonies, fork-readiness drills, and a managed-migration clause — if a legitimately adopted successor emerges, the root's final duty is an orderly migration into it. The standard outlives whoever carries it; that is planned, not feared.
+Disappear means become unnecessary, not vanish. The goal isn't an ecosystem that depends on us; it's one that no longer needs us — a relay race, not a solo marathon. From outside it looks like verification as boring as the clock. Beyond that: generational key-succession ceremonies, fork-readiness drills, and a managed-migration clause — if a legitimately adopted successor emerges, the root's final duty is an orderly migration into it. The standard outlives whoever carries it; that is planned, not feared.
 
 Take a founding seat →
 What exists today
