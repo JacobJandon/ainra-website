@@ -3,7 +3,9 @@
 
 For verifiers & builders
 
-# Verify anything.Trust the source, not us.
+# Check theirs.Trust the source, not us.
+
+One half of the loop — prove yours is the other. The check runs on your machine; nothing reaches us.
 
 Every check runs locally, from public artifacts, in milliseconds — offline-capable, with the root dark. Verification never reports to anyone.
 
