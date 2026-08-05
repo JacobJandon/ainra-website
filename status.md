@@ -51,26 +51,6 @@ The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not
 
 NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
 
-## Soon, your AI will act for you.
-
-Seven questions nobody can answer about an agent today — and the passport answers all of them with signed facts.
-
-- Who created this agent?
-
-- Who controls it now?
-
-- What is it allowed to do?
-
-- Has it been verified — or revoked?
-
-- Is it pretending to be another?
-
-- Can it legally act for a company?
-
-- Can I safely delegate to it?
-
-Tomorrow's checks look like today's — KYC for people, KYB for companies, KYA for agents: every acting AI carrying a scannable ID with a machine-readable zone.
-
 ## Everything orbits the root.
 
 Identity isn't discovered, it's assembled — from pieces that already exist: a name, an operator, an issuer's signature, an authority chain, a log entry. Registrars, passport services and ID schemes each hold some of those pieces on their own island today, like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
