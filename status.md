@@ -73,7 +73,7 @@ Tomorrow's checks look like today's — KYC for people, KYB for companies, KYA f
 
 ## Everything orbits the root.
 
-Registrars, passport services, ID schemes — each an island today, like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
+Identity isn't discovered, it's assembled — from pieces that already exist: a name, an operator, an issuer's signature, an authority chain, a log entry. Registrars, passport services and ID schemes each hold some of those pieces on their own island today, like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
 
 THE ROOT — AINRA
 
