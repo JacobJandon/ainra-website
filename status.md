@@ -51,26 +51,6 @@ The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not
 
 NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
 
-## Everything orbits the root.
-
-Registrars, passport services and ID schemes each hold some of the pieces, on their own island — like domains before a common root. Chained to one neutral root they stay independent, and one check covers them all.
-
-THE ROOT — AINRA
-
-Keys, rules, revocation, logs. Everything chains up to it; every check stays local and fast.
-
-RING 1 · INDEPENDENT REGISTRARS
-
-Separate organizations issuing under identical published rules.
-
-RING 2 · AGENTS
-
-Each carries a passport chained to the root; its running copies get short-lived keys.
-
-RING 3 · VERIFIERS
-
-Anyone deciding whether to trust an agent — the check runs on their own machine, and each picks its own bar.
-
 ## The organization.
 
 A member-governed, non-profit federation — the same species of body that gave sport, aviation and the internet their neutral coordinators. It is the neutral ground where competing issuers become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
