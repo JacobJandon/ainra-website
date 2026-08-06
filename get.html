@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Use AINRA live — get a passport, browse the record · AINRA</title>
+<title>AINRAscan — the live network · AINRA</title>
 <meta name="ainra-contract" content="/net"> <!-- the staging network's published artifact contract, shipped with the site so these pages work on any static host; ?net=<url> overrides with a live network -->
 <meta name="description" content="Prove yours — the other half of the loop. Browse the record, verify any passport in it in your own browser, and point the page at a registrar you run to mint, present and revoke. Nothing to sign up for, nothing uploaded.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 112 112%27%3E%3Crect width=%27112%27 height=%27112%27 rx=%2722%27 fill=%27%23F5F6F3%27/%3E%3Ccircle cx=%2756%27 cy=%2756%27 r=%2736%27 stroke=%27%230B1220%27 stroke-width=%275%27 fill=%27none%27/%3E%3Cellipse cx=%2756%27 cy=%2756%27 rx=%2715%27 ry=%2736%27 stroke=%27%230B1220%27 stroke-width=%274%27 fill=%27none%27/%3E%3Cline x1=%2720%27 y1=%2756%27 x2=%2792%27 y2=%2756%27 stroke=%27%230B1220%27 stroke-width=%274%27/%3E%3Cpath d=%27M56 20 a36 36 0 0 1 36 36%27 stroke=%27%231A6B4E%27 stroke-width=%277%27 stroke-linecap=%27round%27 fill=%27none%27/%3E%3C/svg%3E">
@@ -222,18 +222,38 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line);margin-top:92px}
 
 <main id="main" class="hero">
   <div class="wrap">
-    <span class="eyebrow">Use the live network</span>
-    <h1>Get a passport. Browse the record.</h1>
-    <p class="sub">Mint your agent an identity against a live registrar, then browse every passport already in the record — both live, both verified in your own browser. No account, nothing uploaded.</p>
-    <div class="jump">
-      <a class="btn btn-green" href="#get">Get a passport →</a>
-      <a class="btn btn-ghost" href="#browse">Browse the record</a>
-    </div>
+    <span class="eyebrow">AINRAscan · the live network</span>
+    <h1>Nothing here is a mock-up.</h1>
+    <p class="sub">A real registrar, a real transparency log, and real verdicts computed on your own machine from the log's own inclusion proofs. No account, and nothing you do on this page is uploaded.</p>
   </div>
 
+  <!-- ── BROWSE THE RECORD (AINRAscan) ──────────────────────────────────── -->
+  <div class="wrap">
+    <div class="sec-head" id="browse"><h2>Browse the live record.</h2><p>Every passport the network has issued — active and revoked alike, each one chained to the root, each one checkable here without asking anyone.</p></div>
+    <div id="scan">
+      <div id="s-flow">
+        <div class="s-stats">
+          <div class="s-stat"><b id="s-root">—</b><span>root</span></div>
+          <div class="s-stat"><b id="s-regs">—</b><span>registrars</span></div>
+          <div class="s-stat"><b id="s-issued">—</b><span>passports</span></div>
+          <div class="s-stat"><b id="s-revoked">—</b><span>revoked</span></div>
+          <div class="s-stat"><b id="s-height">—</b><span>checkpoint height</span></div>
+        </div>
+        <div class="s-rootdark" id="s-rootdark" hidden></div>
+        <div class="s-rootdark" id="s-suite" hidden></div>
+        <div class="s-rootdark" id="s-witnesses" hidden></div>
+        <div class="s-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="s-search" type="search" placeholder="Search by name, operator, or tier…" aria-label="Search passports" autocomplete="off">
+        </div>
+        <div class="s-rows" id="s-rows"></div>
+      </div>
+      <div id="s-down" class="err" hidden></div>
+    </div>
+  </div>
   <!-- ── GET A PASSPORT ─────────────────────────────────────────────────── -->
   <div class="wrap">
-    <div class="sec-head"><h2>Get a passport.</h2><p>Name your agent, mint it against a live registrar, and use it — real signatures, logged before it is valid.</p></div>
+    <div class="sec-head"><h2>Get a passport.</h2><p>Real signatures from a real registrar, sealed into the transparency log before the credential is valid.</p></div>
     <div class="stepper">
       <span class="g-dot" data-i="1" data-on="1">1 · Name it</span>
       <span class="g-dot" data-i="2" data-on="0">2 · Get it</span>
@@ -300,30 +320,6 @@ footer{padding:52px 0 40px;border-top:1px solid var(--line);margin-top:92px}
     </div>
   </div>
 
-  <!-- ── BROWSE THE RECORD (AINRAscan) ──────────────────────────────────── -->
-  <div class="wrap">
-    <div class="sec-head" id="browse"><h2>Browse the live record.</h2><p>Every passport in the network, read from the public contract and verifiable on your own machine — active or revoked, all chained to the root.</p></div>
-    <div id="scan">
-      <div id="s-flow">
-        <div class="s-stats">
-          <div class="s-stat"><b id="s-root">—</b><span>root</span></div>
-          <div class="s-stat"><b id="s-regs">—</b><span>registrars</span></div>
-          <div class="s-stat"><b id="s-issued">—</b><span>passports</span></div>
-          <div class="s-stat"><b id="s-revoked">—</b><span>revoked</span></div>
-          <div class="s-stat"><b id="s-height">—</b><span>checkpoint height</span></div>
-        </div>
-        <div class="s-rootdark" id="s-rootdark" hidden></div>
-        <div class="s-rootdark" id="s-suite" hidden></div>
-        <div class="s-rootdark" id="s-witnesses" hidden></div>
-        <div class="s-search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <input id="s-search" type="search" placeholder="Search by name, operator, or tier…" aria-label="Search passports" autocomplete="off">
-        </div>
-        <div class="s-rows" id="s-rows"></div>
-      </div>
-      <div id="s-down" class="err" hidden></div>
-    </div>
-  </div>
 </main>
 
 <footer>
