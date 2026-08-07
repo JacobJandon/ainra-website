@@ -53,7 +53,7 @@ NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR T
 
 ## The organization.
 
-A member-governed, non-profit federation — the same species of body that gave sport, aviation and the internet their neutral coordinators. It is the neutral ground where competing issuers become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
+A member-governed, non-profit federation — neutral ground where competing issuers become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
 
 Members
 
