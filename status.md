@@ -37,7 +37,7 @@ Four independent implementations — Rust, TypeScript, the reference CLI, and Py
 
 ### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
 
-STAGING NETWORK · TEST-ROOT · published record, read in your browser
+STAGING NETWORK · TEST-ROOT · published record · —, read in your browser
 
 —registrars
 
@@ -46,6 +46,11 @@ STAGING NETWORK · TEST-ROOT · published record, read in your browser
 —revoked
 
 —checkpoint height
+
+The contract at — did not answer, so
+nothing above is live right now. Everything else on this site still proves what it proves — the verifier, the
+vectors and the signatures are checked on your machine, not on ours. To run the network yourself:
+make stage-install (or make genesis-local for a one-shot local world).
 
 The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not production. Point it at a network you run with ?net=<url> and these numbers go live. Production logs sealed: 0 until genesis.
 
