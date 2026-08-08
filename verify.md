@@ -47,7 +47,7 @@ Air-gapped verification against a cached list up to 24 hours old — still crypt
 
 REAL TODAY — THE REFERENCE CLI
 
-A zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.1 and try to break it.
+A zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.3 and try to break it.
 
 →
 
