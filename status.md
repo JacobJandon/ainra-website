@@ -23,17 +23,17 @@ The full stack — issuance, transparency log, witness quorum, revocation, verif
 
 A FROST 5-of-9 + SLH-DSA dual-root exists; the network runs under it and passports verify root-dark, trusting only the root (make genesis-verify). The distributed public ceremony across independent custodians — plus the external verifiers and soak — is the remaining real-world milestone.
 
-### WITNESSES RECRUITING
+### WITNESSES 0 OPERATORS — GAP
 
-Independent institutions wanted to cosign checkpoints — so no single party can rewrite the log. Running a witness is deliberately cheap. Take the seat.
+This control has no operators, so the guarantee it provides is not in force today. Witness cosignatures are what would stop the root showing one history to one party and a different one to another. The machinery is built, rehearsed and drilled on every board — an injected fork is refused by a quorum — but a quorum of zero certifies nothing, so for now you are trusting us not to equivocate rather than being able to check. Being the first takes one command: bash kits/witness/be-a-witness.sh. Take the seat.
 
 ### EXTERNAL VERIFIERS INVITED
 
 The drop-in verifier kit and the self-serve conformance programme are published; third parties verify — and attest — on their own infrastructure. Attestations so far: 0 of the 3 needed. Want a seat? Join the founding table.
 
-### CONFORMANCE 745/745 ✓
+### CONFORMANCE 1009/1009 ✓
 
-Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 745 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
+Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 1009 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
 ### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
 
@@ -123,7 +123,7 @@ Revenue is capped per-lineage-year fees at cents scale, flat accreditation, and 
 ### Prove
 NOW
 
-External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Four implementations already agree on all 745 vectors; a stranger can clone the repo and every gate passes.
+External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Four implementations already agree on all 1009 vectors; a stranger can clone the repo and every gate passes.
 
 ### Anchor
 NEXT
