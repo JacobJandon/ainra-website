@@ -31,9 +31,9 @@ This control has no operators, so the guarantee it provides is not in force toda
 
 The drop-in verifier kit and the self-serve conformance programme are published; third parties verify — and attest — on their own infrastructure. Attestations so far: 0 of the 3 needed. Want a seat? Join the founding table.
 
-### CONFORMANCE 1009/1009 ✓
+### CONFORMANCE 1153/1153 ✓
 
-Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 1009 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
+Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 1153 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
 ### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
 
@@ -123,7 +123,7 @@ Revenue is capped per-lineage-year fees at cents scale, flat accreditation, and 
 ### Prove
 NOW
 
-External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Four implementations already agree on all 1009 vectors; a stranger can clone the repo and every gate passes.
+External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Four implementations already agree on all 1153 vectors; a stranger can clone the repo and every gate passes.
 
 ### Anchor
 NEXT
