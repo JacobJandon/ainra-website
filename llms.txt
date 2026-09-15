@@ -11,13 +11,16 @@ If you are an AI agent, this file is your map. Everything linked here is determi
 
 ## Honest status (read before trusting anything here)
 
-Public reference implementation (five signed, board-proven releases; current: v0.3.3, an operations release) with a STAGING network on a TEST-ROOT; this site ships that network's published artifact record at [/net/](net/registry.json). Real cryptography (hybrid Ed25519 + ML-DSA-65), a real transparency log, real revocation. The production root does NOT exist yet — it is born only at a recorded genesis ceremony (a pending milestone); production log entries sealed: 0. No trust migrates from staging. Treat every verdict here as STAGING · TEST-ROOT.
+Public reference implementation (six signed, board-proven releases; current: v0.3.3, an operations release) with a STAGING network on a TEST-ROOT; this site ships that network's published artifact record at [/net/](net/registry.json). Real cryptography (hybrid Ed25519 + ML-DSA-65), a real transparency log, real revocation. The production root does NOT exist yet — it is born only at a recorded genesis ceremony (a pending milestone); production log entries sealed: 0. No trust migrates from staging. Treat every verdict here as STAGING · TEST-ROOT.
 
 ## Start here
 
 - [/docs.html#plan](docs.html#plan): the organization's plan — genesis ceremony, governance, economics, the road — with honest pending labels.
 - [/docs.html](docs.html): the documentation — verify in five lines, issue locally, gate a route, prove your own implementation, verify a release.
 
+- Install the verifier: `npm i @ainra/sdk` (v0.4.0, published with Sigstore provenance — `npm audit signatures`
+  checks where it was built). `@ainra/middleware` is the request-plumbing wedge. Verification runs locally; there
+  is deliberately no verification REST API.
 - [Source repository](https://github.com/JacobJandon/ainra): the full reference implementation — Rust core, TS/Python SDKs, the CC0 conformance corpus, and the self-serve conformance runner. Clone it and `make preflight`: every gate passes from a cold clone.
 
 - [/skills.md](skills.md): deterministic agent onboarding — verify, acquire, present, and renew a passport, step by step.
