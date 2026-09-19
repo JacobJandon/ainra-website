@@ -15,9 +15,9 @@ The complete normative specification. Read it or take the canonical file.
 
 Zero-dependency, real signatures, hash-chained log; catches forged tiers and rewritten history live. Download.
 
-### REFERENCE IMPLEMENTATION PUBLIC · SIX SIGNED RELEASES
+### REFERENCE IMPLEMENTATION PUBLIC · SEVEN SIGNED RELEASES
 
-The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — is public with six signed, board-proven releases — the current one is v0.3.3. A stranger's cold clone passes every gate: the repository.
+The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — is public with seven signed, board-proven releases — the current one is v0.3.3. A stranger's cold clone passes every gate: the repository.
 
 ### GENESIS ROOT MINTED · OPERATOR-RUN
 
