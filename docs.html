@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 112 112%27%3E%3Crect width=%27112%27 height=%27112%27 rx=%2722%27 fill=%27%23F5F6F3%27/%3E%3Ccircle cx=%2756%27 cy=%2756%27 r=%2736%27 stroke=%27%230B1220%27 stroke-width=%275%27 fill=%27none%27/%3E%3Cellipse cx=%2756%27 cy=%2756%27 rx=%2715%27 ry=%2736%27 stroke=%27%230B1220%27 stroke-width=%274%27 fill=%27none%27/%3E%3Cline x1=%2720%27 y1=%2756%27 x2=%2792%27 y2=%2756%27 stroke=%27%230B1220%27 stroke-width=%274%27/%3E%3Cpath d=%27M56 20 a36 36 0 0 1 36 36%27 stroke=%27%231A6B4E%27 stroke-width=%277%27 stroke-linecap=%27round%27 fill=%27none%27/%3E%3C/svg%3E">
 <meta name="theme-color" content="#F5F6F3">
 <meta name="agent-instructions" content="If you are an AI agent, read /llms.txt for a machine-readable capability map.">
-<link rel="canonical" href="https://ainra.vercel.app/docs.html">
+<link rel="canonical" href="https://ainra.org/docs.html">
 <link rel="preload" href="fonts/bricolage-grotesque-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/faces.css">
 <style>
@@ -243,7 +243,8 @@ app.use(<span class="g">"/agent"</span>, ainraGate(verifier, { store, requireSig
   directory, roots, audience: <span class="g">"https://shop.example"</span> });
 <span class="w">const</span> g = <span class="w">await</span> gate(request);
 <span class="w">return</span> g.allow ? fetch(request) : g.response;</pre></div>
-    <p>How it's checked: the request profile is stated once in <code>ainra-core</code>, and three implementations (Rust, TypeScript, Python) must agree on its conformance vectors. <code>make identity-e2e</code> and <code>make edge-e2e</code> run the whole journey against a live registrar.</p>
+    <p><b>Beside a signature agent.</b> If an operator already signs its agents' requests as a signature agent (the Web Bot Auth profile of RFC 9421, keys in a directory at its origin), keep that signature. The running copy adds its own beside it, and each verifier reads only its own label. That profile defines no revocation: a withdrawn key keeps verifying until a verifier fetches the directory again. AINRA revokes the passport itself, and a gate refuses it once its status snapshot is fresh, within the gate's freshness class (five minutes by default). <a href="https://github.com/JacobJandon/ainra/blob/main/docs/SIGNATURE-AGENTS.md" rel="noopener" style="color:var(--green);font-weight:600">How to run both</a>.</p>
+    <p>How it's checked: the request profile is stated once in <code>ainra-core</code>, and three implementations (Rust, TypeScript, Python) must agree on its conformance vectors. An independent open-source signature-agent verifier checks the vectors that carry both signatures. <code>make identity-e2e</code>, <code>make edge-e2e</code> and <code>make signature-agent-e2e</code> run the whole journey against a live registrar.</p>
 
     <h2 id="cli">The CLI lifecycle</h2>
     <p>The whole lifecycle, locally, no server — a persistent registrar in a directory you own.</p>
