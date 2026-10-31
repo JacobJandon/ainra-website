@@ -51,8 +51,8 @@ A zero-dependency command-line tool with real signatures and a hash-chained loca
 
 →
 
-AT FIRST PUBLIC RELEASE — AHEAD
+REAL TODAY — THE FULL IMPLEMENTATION
 
-The full reference implementation: verify in five lines with the SDK, a fail-closed middleware gate, registrar-in-a-box in one command, and the complete conformance vector set — published under CC0, so conformance never needs anyone's permission.
+Verify in five lines with the SDK (@ainra/sdk on npm, ainra on PyPI), a fail-closed middleware gate, registrar-in-a-box in one command, and the complete conformance vector set — published under CC0, so conformance never needs anyone's permission.
 
-VERIFICATION IS LOCAL · IT NEVER PHONES HOME · CONFORMANCE IS CLAIMED AGAINST THE VECTOR SET THAT SHIPS AT FIRST PUBLIC RELEASE, NOT GRANTED BY US
+VERIFICATION IS LOCAL · IT NEVER PHONES HOME · CONFORMANCE IS CLAIMED AGAINST THE PUBLIC VECTOR SET, NOT GRANTED BY US

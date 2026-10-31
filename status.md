@@ -17,7 +17,7 @@ Zero-dependency, real signatures, hash-chained log; catches forged tiers and rew
 
 ### REFERENCE IMPLEMENTATION PUBLIC · EIGHT SIGNED RELEASES
 
-The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — is public with eight signed, board-proven releases — the current one is v0.3.3. A stranger's cold clone passes every gate: the repository.
+The full stack — issuance, transparency log, witness quorum, revocation, verifier SDK — is public with eight signed, board-proven releases — the current one is v0.5.0. A stranger's cold clone passes every gate: the repository.
 
 ### GENESIS ROOT MINTED · OPERATOR-RUN
 
