@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: AINRA registrar — public door + read API
   version: 1
-  description: "A registrar-box's HTTP surface. READ endpoints are open. The PUBLIC DEMO DOOR (POST /demo/issue, /demo/revoke, /demo/link, /demo/link/revoke) needs no token, is rate-limited, staging/TEST-ROOT only, and mints/revokes only a low-tier specimen — so a stranger completes the whole lifecycle safely. Operator writes (/issue,/renew,/revoke) require a bearer token (see the console spec). There is NO verify REST API: GET /present returns the signed bundle and you verify it LOCALLY."
+  description: "A registrar-box's HTTP surface. READ endpoints are open. The PUBLIC DEMO DOOR (POST /demo/issue, /demo/renew, /demo/revoke, /demo/link, /demo/link/revoke) needs no token, is rate-limited, staging/TEST-ROOT only, and mints/revokes only a low-tier specimen — so a stranger completes the whole lifecycle safely. Operator writes (/issue,/renew,/revoke) require a bearer token (see the console spec). There is NO verify REST API: GET /present returns the signed bundle and you verify it LOCALLY."
 servers:
   -
     url: "http://127.0.0.1:4907"
@@ -192,6 +192,34 @@ paths:
           description: LinkRevocation
         403:
           description: not a link to a demo specimen / not staging
+        429:
+          description: rate limited
+  /demo/renew:
+    post:
+      summary: "PUBLIC DOOR: renew a demo specimen under a new version (no auth, rate-limited, staging only). Only the lineage's current generation renews; every generation stays presentable under its own name, and revoking the lineage revokes them all (D-055)."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sub
+                - new_version
+              properties:
+                sub:
+                  type: string
+                new_version:
+                  type: string
+                now:
+                  type: integer
+      responses:
+        200:
+          description: IssuedRecord
+        400:
+          description: missing fields / not the current generation / expired
+        403:
+          description: not a demo specimen / not staging
         429:
           description: rate limited
   /demo/revoke:

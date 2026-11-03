@@ -35,7 +35,9 @@ The drop-in verifier kit and the self-serve conformance programme are published;
 
 Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 1153 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
-### REVOCATION make soak-smoke). The 14-day multi-region soak runs at genesis.
+### REVOCATION <60s [MEASURED]
+
+Revocation propagation measured under 60 seconds, fail-closed, in networked drills of the reference stack (make soak-smoke). The 14-day multi-region soak runs at genesis.
 
 STAGING NETWORK · TEST-ROOT · published record · —, read in your browser
 
