@@ -1,11 +1,27 @@
 <!-- Generated markdown mirror of foundation.html — do not edit; regenerate with `make site` (tools/site-mirrors.mjs). -->
 # AINRA — Foundation & status
 
-Real today
+/01 · REAL TODAY
 
-# Honest status.
+## Honest status.
+
+THE MARKS ON THIS PAGE
+
+- DONE · SIGNED · WILL NOT CHANGE
+
+- IN FORCE · RUNNING
+
+- PENDING · INVITED · NOT YET SETTLED
+
+- ZERO · NOTHING THERE YET
+
+Each mark is a Game-of-Life pattern running on a 5×5 grid (B3/S23): a still block, a travelling glider, an oscillating blinker, an empty grid.
+
+NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
 
 This page states exactly what exists — nothing more. It changes only when reality does. If anything here ever disagrees with reality, that is a bug: tell us.
+
+UPDATED 2026-11-04 · THE NUMBERS BELOW THE REGISTER COME FROM THE PUBLISHED RECORD 2026-11-04 · AGE ·
 
 ### STANDARD v5.1 — PUBLIC ✓
 
@@ -33,30 +49,34 @@ The drop-in verifier kit and the self-serve conformance programme are published;
 
 ### CONFORMANCE 1153/1153 ✓
 
-Four independent implementations — Rust, TypeScript, the reference CLI, and Python — agree on all 1153 CC0 conformance vectors, byte-for-byte. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
+Three implementations — Rust, TypeScript and Python — agree on all 1153 CC0 conformance vectors, byte-for-byte, on verdict and reason; a fourth, the reference CLI, agrees on canonical encoding. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
 ### REVOCATION <60s [MEASURED]
 
 Revocation propagation measured under 60 seconds, fail-closed, in networked drills of the reference stack (make soak-smoke). The 14-day multi-region soak runs at genesis.
 
-STAGING NETWORK · TEST-ROOT · published record · —, read in your browser
+registrars—
 
-—registrars
+passports issued—
 
-—passports issued
+revoked—
 
-—revoked
+checkpoint height—
 
-—checkpoint height
+PRODUCTION LOGS SEALED—UNTIL GENESIS
+
+STAGING NETWORK · TEST-ROOT · published record
+
+RECORD PUBLISHED —
+
+The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not production. Point it at a network you run with ?net=<url> and these numbers go live. Production logs sealed: 0 until genesis.
 
 The contract at — did not answer, so
 nothing above is live right now. Everything else on this site still proves what it proves — the verifier, the
 vectors and the signatures are checked on your machine, not on ours. To run the network yourself:
 make stage-install (or make genesis-local for a one-shot local world).
 
-The same read contract AINRAscan and any mirror use — a staging TEST-ROOT, not production. Point it at a network you run with ?net=<url> and these numbers go live. Production logs sealed: 0 until genesis.
-
-NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR THEY ARE ABSENT
+/02
 
 ## The organization.
 
@@ -82,68 +102,68 @@ Statutes, minutes, budgets, audits, fee schedules, and ceremonies. The root reco
 
 AINRA is a proposal for that neutral root — one open standard anyone can run, own, or fork. You are not asked to trust its founders; everything is public.
 
+/03
+
 ## Genesis: how the root is born.
 
 The production root does not exist until it is born in public — on camera, across independent custodians, with no single point of trust. Until then, everything runs on a labeled TEST-ROOT and says so.
 
+-
+
 ### The ceremony, rehearsed
-DONE · REPRODUCIBLE
+A FROST 5-of-9 threshold ceremony — any five of nine custodians can act together, no one alone, four compromised shares are useless. Rehearsed end-to-end across nine isolated processes with a reproducible transcript; an independent checker re-verifies every custodian.DONE · REPRODUCIBLEmake ceremony-rehearsal-multi · runbook: docs/genesis-day/RUNBOOK.md
 
-A FROST 5-of-9 threshold ceremony — any five of nine custodians can act together, no one alone, four compromised shares are useless. Rehearsed end-to-end across nine isolated processes with a reproducible transcript; an independent checker re-verifies every custodian.
-
-make ceremony-rehearsal-multi · runbook: docs/genesis-day/RUNBOOK.md
+-
 
 ### The recorded public ceremony
-PENDING · REAL-WORLD EVENT
+Ceremony day is scripted from T−30 days to T+14: sealed hardware shown on camera, air-gapped ephemeral machines, shares generated that never leave them, commitments cross-read aloud. Any failed check aborts the day — publicly.PENDING · REAL-WORLD EVENTgo/no-go checklist · abort playbook · cutover plan — all published in the repo
 
-Ceremony day is scripted from T−30 days to T+14: sealed hardware shown on camera, air-gapped ephemeral machines, shares generated that never leave them, commitments cross-read aloud. Any failed check aborts the day — publicly.
-
-go/no-go checklist · abort playbook · cutover plan — all published in the repo
+-
 
 ### Independent verifiers
-RECRUITING · ≥3 STRANGERS
+Three or more unaffiliated people each receive a fresh challenge no one can precompute, verify it on their own machines with the published tooling, and sign what they saw. Their attestations become permanent public evidence.RECRUITING · ≥3 STRANGERSchallenge kits minted · outreach ready · the ask is ~10 minutes
 
-Three or more unaffiliated people each receive a fresh challenge no one can precompute, verify it on their own machines with the published tooling, and sign what they saw. Their attestations become permanent public evidence.
-
-challenge kits minted · outreach ready · the ask is ~10 minutes
+-
 
 ### The soak
-PENDING · 14 DAYS · 3 REGIONS
-
-Fourteen days of measured revocation propagation across three regions, each region writing signed reports. The founding declaration refuses to render unless every claim resolves to real evidence.
-
-platform built and smoke-proven · the clock is the operator's button
+Fourteen days of measured revocation propagation across three regions, each region writing signed reports. The founding declaration refuses to render unless every claim resolves to real evidence.PENDING · 14 DAYS · 3 REGIONSplatform built and smoke-proven · the clock is the operator's button
 
 Honesty rule: these three rows are real-world events, not code. Nothing on this site counts them done before they happen — production logs sealed today: 0.
+
+/04
 
 ## Economics: position, not profit.
 
 Revenue is capped per-lineage-year fees at cents scale, flat accreditation, and grants. Verification is free forever — the design goal is a root cheap enough that removing it costs more than keeping it. At scale, the charter's falling cap reduces the fee toward archival cost.
 
+/05
+
 ## The road, planned to the end.
 
-### Prove
-NOW
+- NOW
 
-External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Four implementations already agree on all 1153 vectors; a stranger can clone the repo and every gate passes.
+### Prove
+External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Three implementations already agree on all 1153 vectors on verdict and reason, and a fourth agrees on canonical encoding; a stranger can clone the repo and every gate passes.
+
+- NEXT
 
 ### Anchor
-NEXT
-
 Institutional co-conveners; charter ratification; the first public ceremony sealing log #1; two registrar classes issuing live; one revocation propagated worldwide, watchably.
 
-### Endure
-THE LONG MIDDLE
+- THE LONG MIDDLE
 
+### Endure
 Adoption plateaus and pressure met with pre-decided responses. Principles fixed, pace flexible.
 
-### Disappear
-THE GOAL
+- THE GOAL
 
+### Disappear
 Disappear means become unnecessary, not vanish. The goal isn't an ecosystem that depends on us; it's one that no longer needs us — a relay race, not a solo marathon. From outside it looks like verification as boring as the clock. Beyond that: generational key-succession ceremonies, fork-readiness drills, and a managed-migration clause — if a legitimately adopted successor emerges, the root's final duty is an orderly migration into it. The standard outlives whoever carries it; that is planned, not feared.
 
 Take a founding seat →
 What exists today
+
+/06
 
 ## Take a founding seat.
 
@@ -163,3 +183,21 @@ Take a seat →
 Opens a public founding request on the source repository — in the open, like everything else here; nothing is stored on any server we run.
 
 READ THE STANDARD FIRST →
+
+/07 · RELEASE INTEGRITY
+
+## Verify what you download.
+
+Every release is signed, and — the stronger check — reproducible: you rebuild the conformance corpus byte-for-byte from the tagged source and trust the bytes, not us.
+
+### Signing key
+
+SHA256:V1ZbCNdPDEe5plpYq07dGCsoensF4Q+MPPQQkcj5pi4
+
+SSH Ed25519 · public key pinned in-repo (release/ainra-release.pub) · private key offline.
+
+### How to verify
+
+Check the signature, then rebuild from source (make repro) and diff the manifest — no key needed for the strong proof.
+
+The full guide — RELEASE-VERIFY.md →
