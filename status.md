@@ -163,7 +163,37 @@ Disappear means become unnecessary, not vanish. The goal isn't an ecosystem that
 Take a founding seat →
 What exists today
 
-/06
+/06 · INTERNET FREEDOM
+
+## Proof for the people under pressure — without being watched.
+
+Newsrooms, human-rights groups and activists face impersonation and surveillance first. AINRA gives them certainty about the software they deal with, and the check itself tells no one anything.
+
+/01
+
+### A real tool, not a decoy.
+
+Check that an agent belongs to the organisation it names, and not to an impersonator or a spoofed bot: the passport carries its operator, proven to an accredited registrar.
+
+/02
+
+### A check that calls no one.
+
+Signatures and revocation are checked on the verifier’s own machine, from public files. No request goes to us or anyone during a check, so there is no log of who checked whom.
+
+/03
+
+### A seized key, switched off.
+
+If a device or an agent’s key is taken, one bit set in the signed status list (an IETF Token Status List) makes every verifier that checks refuse it — within its freshness class: 30 seconds at F1, five minutes by default.
+
+/04
+
+### No single owner, two signatures.
+
+Every passport is signed twice, Ed25519 and ML-DSA-65, so it holds even if one scheme falls — including to a future quantum computer. The root is built to be held 5-of-9 by independent custodians; today it is pre-ceremony, with no witnesses yet.
+
+/07
 
 ## Take a founding seat.
 
@@ -184,7 +214,7 @@ Opens a public founding request on the source repository — in the open, like e
 
 READ THE STANDARD FIRST →
 
-/07 · RELEASE INTEGRITY
+/08 · RELEASE INTEGRITY
 
 ## Verify what you download.
 
