@@ -47,9 +47,9 @@ This control has no operators, so the guarantee it provides is not in force toda
 
 The drop-in verifier kit and the self-serve conformance programme are published; third parties verify — and attest — on their own infrastructure. Attestations so far: 0 of the 3 needed. Want a seat? Join the founding table.
 
-### CONFORMANCE 1153/1153 ✓
+### CONFORMANCE 1156/1156 ✓
 
-Three implementations — Rust, TypeScript and Python — agree on all 1153 CC0 conformance vectors, byte-for-byte, on verdict and reason; a fourth, the reference CLI, agrees on canonical encoding. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
+Three implementations — Rust, TypeScript and Python — agree on all 1156 CC0 conformance vectors, byte-for-byte, on verdict and reason; a fourth, the reference CLI, agrees on canonical encoding. Reproduced with one command (make diff) in the reference repository; the vector corpus is published alongside it.
 
 ### REVOCATION <60s [MEASURED]
 
@@ -143,7 +143,7 @@ Revenue is capped per-lineage-year fees at cents scale, flat accreditation, and 
 - NOW
 
 ### Prove
-External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Three implementations already agree on all 1153 vectors on verdict and reason, and a fourth agrees on canonical encoding; a stranger can clone the repo and every gate passes.
+External verifier trials against pre-registered gates; the standard filed in the open with the reference stack as its conformance suite. Three implementations already agree on all 1156 vectors on verdict and reason, and a fourth agrees on canonical encoding; a stranger can clone the repo and every gate passes.
 
 - NEXT
 
