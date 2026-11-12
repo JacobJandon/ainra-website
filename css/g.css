@@ -199,7 +199,7 @@ html[data-motion="on"] .h-trip .pxa{animation:pxsh 3.4s ease-in-out infinite}
 .rv .c-hero.is-in .h-trip__cell{opacity:1;transform:none}
 .rv .c-hero.is-in .h-trip__cell:nth-of-type(2){transition-delay:.08s}.rv .c-hero.is-in .h-trip__cell:nth-of-type(3){transition-delay:.16s}
 
-/* ── G: the structure and motion of a large software company's home page (research/palantir.md, MOTION.md),
+/* ── G: the structure and motion of a large software company's home page (studied privately; see MOTION.md),
    carried in AINRA's own fonts, colours, words and pictures. Light; solid surfaces; nothing loops but the film. ── */
 .g-k{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
 .g-link{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:2px}
@@ -318,7 +318,7 @@ html.g-menu-open{overflow:hidden}
 .g-duplex a:hover .g-duplex__go{transform:translateX(8px)}
 @media (max-width:800px){.g-duplex{grid-template-columns:1fr}}
 
-/* ── G, second pass: the measured section order of the reference home page (research/refs/palantir-2026-11-05) ── */
+/* ── G, second pass: the measured section order of the reference home page (private study notes, 2026-11-05) ── */
 .g-announce__x{margin-left:auto;background:none;border:0;font-size:20px;line-height:1;color:var(--ink);cursor:pointer;padding:4px 6px}
 .g-announce[hidden]{display:none}
 .g-sq{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:var(--r-ctl);transition:background .25s ease-in-out,color .25s ease-in-out}
@@ -457,7 +457,7 @@ nav:not([class]) .nav-in,.nav-float nav:not([class]) .nav-in{max-width:none;widt
 .g-side__head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .g-side__head span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .g-side__x{width:28px;height:28px;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:2px;cursor:pointer;font-size:16px;line-height:1}
-.g-side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.g-side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;overflow:clip}/* a row waiting to slide in sits 12px to the right: clipped here, or it widens the page by 4px */
 .g-side li{border-left:1px solid var(--ink);padding-left:12px;font-size:13px;line-height:1.4;color:var(--ink)}
 .g-side li span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 .g-side li{opacity:0;transform:translateX(12px);transition:opacity .4s ease,transform .5s cubic-bezier(.22,1,.36,1)}
@@ -540,7 +540,7 @@ footer.g-foot{background:transparent;border-top:1px solid var(--line);margin-top
 .g-foot__cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:20px}
 .g-foot__cols h4{font-family:var(--sans);font-size:10px;font-weight:400;line-height:16px;letter-spacing:.5px;text-transform:uppercase;color:#666;margin:0 0 10px}
 .g-foot__cols ul{list-style:none;margin:0;padding:0}
-.g-foot__cols li a{display:inline-block;padding:3px 0;font-size:16px;line-height:22.6px;color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.g-foot__cols li a{display:inline-block;padding:3px 0;font-size:16px;line-height:22.6px;color:var(--ink);text-decoration:none;overflow-wrap:break-word}
 .g-foot__cols li a:hover{text-decoration:underline;text-underline-offset:3px}
 .g-foot__status{margin:72px auto 0;padding:20px 30px 0;max-width:1440px;border-top:0;display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.5px;line-height:16px;text-transform:uppercase;color:#666}
 .g-foot__status .live{color:var(--ink)}
@@ -687,3 +687,172 @@ nav:not([class]) .nav-r .g-menubtn,nav:not([class]) .nav-r .g-sq{min-width:40px;
 .g-car__card.is-bp .g-tabs__label{opacity:0;transform:translateY(-10px);pointer-events:none}
 /* phones: the details panel is dropped too — the page below says the same, and on a small screen it covers it */
 @media (max-width:800px){.g-side{display:none}}
+
+/* ── G, seventh pass (2026-11-10, owner: "the headline static at the lower left of the hero while the video plays
+   behind it"): the headline leaves the film and stands in the page again, ink on the film's own paper. The film's
+   drawings play on one stage in the upper right (film/cut2.py), clear of the headline, the header and the Details
+   panel; its world shots dissolve into paper toward the bottom, so the words read over any of them. The film is
+   anchored a little right of centre: on a narrower window the stage stays whole and the crop falls on the left. ── */
+.g-hero__v{object-position:85% 50%}
+.g-hero__plate{display:block;position:absolute;left:clamp(16px,3vw,48px);bottom:clamp(48px,11vh,128px);max-width:none;background:transparent;border:0;border-radius:0;padding:0;z-index:2}
+.g-hero h1.display{font-size:clamp(44px,5.2vw,104px);line-height:.96;letter-spacing:-.04em;font-weight:500;margin:0;max-width:none;color:var(--ink)}
+/* the words rise out of a clipped box; at this tight leading the box needs room for the descenders (g, p) */
+.g-hero h1.display .gw{padding-bottom:.2em;margin-bottom:-.2em}
+.rv .g-hero.is-in .g-hero__plate{clip-path:none}   /* the first pass's reveal still boxed the plate, and cut the g of "agent" */
+/* how the headline arrives (2026-11-10, owner: "a better animation, smooth"): a short signal rule draws in above it,
+   then each word rises out of its own clipped line, tilting level and clearing as it lands, a beat after the word
+   before — one long ease, transform and opacity only, so it stays on the compositor. With motion off (no .rv) the
+   headline and the rule are simply there. */
+.g-hero__plate::before{content:"";display:block;width:clamp(40px,4.2vw,72px);height:2px;background:var(--signal,#2F5BFF);margin:0 0 clamp(14px,1.6vw,26px) .06em;transform-origin:0 50%}
+.rv .g-hero__plate::before{transform:scaleX(0);transition:transform .9s cubic-bezier(.16,1,.3,1) .05s}
+.rv .g-hero.is-in .g-hero__plate::before{transform:none}
+.rv .g-hero h1.display .gw > span{transform:translate3d(0,115%,0) rotate(6deg);transform-origin:0 100%;opacity:0;
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1) calc(var(--i) * 80ms + .18s),opacity .55s ease-out calc(var(--i) * 80ms + .18s)}
+.rv .g-hero.is-in h1.display .gw > span{transform:none;opacity:1}
+/* …and how it leaves and returns (owner: "the text appears and disappears"): as each chapter of the film closes, the
+   words lift out through the top of their lines and the rule closes toward its right end (.is-out); as the next
+   world shot opens they are put back under their lines without a transition (.is-reset) and rise again. g.mjs sets
+   the two classes from the film's own clock; a paused film, or motion off, leaves the headline standing. */
+.rv .g-hero.is-in .g-hero__plate.is-out h1.display .gw > span{transform:translate3d(0,-115%,0) rotate(-4deg);opacity:0;
+  transition:transform .7s cubic-bezier(.6,0,.85,.2) calc(var(--i) * 45ms),opacity .4s ease-in calc(var(--i) * 45ms + .2s)}
+.rv .g-hero.is-in .g-hero__plate.is-out::before{transform:scaleX(0);transform-origin:100% 50%;transition:transform .6s cubic-bezier(.6,0,.85,.2)}
+.rv .g-hero.is-in .g-hero__plate.is-reset h1.display .gw > span{transform:translate3d(0,115%,0) rotate(6deg);opacity:0;transition:none}
+.rv .g-hero.is-in .g-hero__plate.is-reset::before{transform:scaleX(0);transition:none}
+/* the hero's last sliver is paper, so it meets the page below without an edge */
+.g-hero__scrim{display:block;position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(245,246,243,0) 86%,var(--paper) 100%)}
+/* the Details panel, a little tighter beside this hero, so on a full-size window it ends below the film's stage; where
+   it still would not (a short window), g.mjs starts it closed and the edge tab offers it */
+.g-hero + .g-side{padding:14px 16px 12px}
+.g-hero + .g-side .g-side__head{margin-bottom:8px}
+.g-hero + .g-side ul{gap:10px}
+/* a short, wide window crops the film top and bottom: take most of it from the bottom, so the stage stays below the header */
+@media (max-height:720px) and (min-aspect-ratio:16/9){.g-hero__v{object-position:85% 20%}}
+/* a phone, or any window taller than it is wide: the film is a strip on top (its phone cut: each drawing fills the
+   frame), and the headline sits under it on paper */
+@media (max-width:700px),(max-aspect-ratio:5/4){
+  .g-hero{height:auto;min-height:0;display:flex;flex-direction:column}
+  .g-hero__film{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:16/9}
+  .g-hero__v{object-position:50% 50%}
+  .g-hero__scrim{display:none}
+  .g-hero__plate{position:relative;left:auto;bottom:auto;padding:22px 16px 4px;background:var(--paper)}
+  .g-hero__plate::before{margin-bottom:14px}
+  .g-hero h1.display{font-size:clamp(40px,11vw,64px)}
+  /* the phone cut's drawings fill the frame, so the pause control leaves the film: a round button beside the headline */
+  .g-hero__pause{top:calc(56.25vw + 20px);bottom:auto;right:16px;width:40px;padding:0;justify-content:center;z-index:3}
+  .g-hero__pause .film__lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
+/* a tall window wider than a phone (a tablet held upright): the header still floats, so the strip starts below it */
+@media (min-width:701px) and (max-aspect-ratio:5/4){
+  .g-hero{padding-top:102px}
+  .g-hero__pause{top:calc(56.25vw + 122px)}
+}
+
+/* ── G, eighth pass (2026-11-11): the defects a six-lens review of the site found, each re-checked before it was fixed
+   (the review and its evidence are kept with the design notes). ───────────────────────────────────────────────── */
+/* the menu could not be closed by its own button: the sheet (80) lay over the header (60) that holds the button. While
+   the menu is open the header, and with it the phone's bottom bar, rises above the sheet. The sheet is near-solid
+   paper, so the page no longer shows through it as blotches; on phones its last links clear the bottom bar. */
+html.g-menu-open nav:not([class]){z-index:90}
+.g-menu{background:rgba(245,246,243,.96)}
+@media (max-width:700px){.g-menu{padding-bottom:96px}}
+/* the intro cover lifts by itself if the script that should lift it never runs (a failed download left every page
+   covered for good). The script still lifts it sooner; this is only the floor. */
+@keyframes gIntroLift{to{transform:translateX(130%) skewX(-12deg)}}
+.g-intro:not(.is-done):not(.is-leaving) .g-intro__panel{animation:gIntroLift .6s cubic-bezier(.76,0,.24,1) 2.4s forwards}
+/* after the first page of a visit the switch between pages is brief (g.mjs holds it for a shorter time, too) */
+html.g-intro-brief .g-intro__panel{transition-duration:.42s}
+html.g-intro-brief .g-intro.is-leaving.is-cover .g-intro__panel{transition-duration:.26s}
+/* the Details tab is not a tab stop while it is tucked away */
+.g-side__tab:not(.is-shown){visibility:hidden;transition:transform .45s cubic-bezier(.22,1,.36,1),visibility 0s .45s}
+/* phones: every inner page ends clear of the floating bottom bar, as the home page already does; and the bar steps
+   aside while the page's own two main buttons are under it (g.mjs sets the class) */
+@media (max-width:700px){body.gi-page{padding-bottom:70px}}
+.nav-r{transition:opacity .2s ease}
+html.nav-bar-yield .nav-r{opacity:0;pointer-events:none}
+/* phones and short windows: the announcement is one line (its short wording), not a fifth of the first screen */
+.g-announce__s{display:none}
+@media (max-width:700px),(max-height:639px){
+  .g-announce .wrap{flex-wrap:nowrap;gap:10px;min-height:44px}
+  .g-announce__l{display:none}
+  .g-announce__s{display:block;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .g-announce a{white-space:nowrap}
+  .g-announce__x{min-width:44px;min-height:44px;margin-right:-10px}
+}
+/* the hover preview beside "What AINRA is made of" showed without a hover (the scroll reveal's .is-in outranked its
+   hidden state) and lay over the first two descriptions: it shows only for the row being pointed at or focused */
+.rv .g-preview[data-rv].is-in:not(.is-on){opacity:0}
+/* a short, wide window (a small laptop, a phone held sideways, a zoomed page): the hero is the window's own height, so
+   the headline is on the first screen instead of below it */
+@media (max-height:639px) and (min-width:701px) and (min-aspect-ratio:5/4){
+  .g-hero{min-height:0}
+  /* the hero starts under the one-line announcement, so it is that much shorter than the window */
+  body:has(.g-announce:not([hidden])) .g-hero{height:calc(100vh - 44px)}
+  .g-hero h1.display{font-size:clamp(34px,11vh,64px)}
+  .g-hero__plate{bottom:clamp(20px,7vh,48px)}
+}
+/* the carousel's card always shows its drawing: a still (set as the clip's poster) stands in until the clip plays,
+   and stays when motion is off */
+.g-car__card video{background:var(--paper)}
+/* the menu button on the phone bar lost its icon while open (its paper background outranked the open state's ink) */
+nav:not([class]) .nav-r .g-menubtn[aria-expanded="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+/* short windows: the Details panel and its tab stay away (as on phones); they sat on the film's Pause control */
+@media (max-height:639px) and (min-width:701px){.g-side,.g-side__tab{display:none}}
+/* motion off: the carousel's card shows its still and offers its own Play, drawn like the film's Pause */
+.g-car__play{display:none;position:absolute;right:16px;bottom:16px;z-index:3;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink);font:500 13px/1 var(--sans);cursor:pointer}
+.g-car__play svg{width:14px;height:14px;fill:currentColor}
+.g-car__play .i-pause{display:none}.g-car__play[aria-pressed="true"] .i-play{display:none}.g-car__play[aria-pressed="true"] .i-pause{display:inline}
+.g-car__card.is-still .g-car__play{display:inline-flex}
+
+/* ── G, ninth pass (2026-11-11): proof first. The hero's two actions stand under the headline, on the first screen
+   at every size; a row of the test network's own numbers follows the lead, each with where it comes from. ────── */
+.g-hero__plate .g-lead__cta{margin-top:clamp(18px,2.2vw,30px)}
+.g-hero__plate .g-lead__cta .btn{min-height:44px}
+@media (max-width:700px),(max-aspect-ratio:5/4){.g-hero__plate .g-lead__cta{margin-top:18px}}
+@media (max-height:639px) and (min-width:701px) and (min-aspect-ratio:5/4){.g-hero__plate .g-lead__cta{margin-top:14px}}
+.g-lead__in{grid-template-columns:minmax(0,1fr)}
+.g-proof{padding:clamp(28px,3.4vw,52px) 0;border-bottom:1px solid var(--line)}
+.g-proof__k{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 clamp(16px,2vw,26px)}
+.g-proof__row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;border-top:1px solid var(--line)}
+.g-proof__row > div{padding:18px 24px 6px 0;border-right:1px solid var(--line);margin-right:24px}
+.g-proof__row > div:last-child{border-right:0;margin-right:0}
+.g-proof__row dt{font-size:14px;color:var(--ink-soft,#3A4250);margin:0 0 6px}
+.g-proof__row dd{margin:0;font-size:clamp(40px,4.4vw,64px);line-height:1;letter-spacing:-.03em;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.g-proof__src{margin:10px 0 0;font-size:13px;color:var(--muted)}
+.g-proof__src code{font-size:12px}
+.g-proof__go{display:inline-block;margin-top:clamp(18px,2vw,28px);font-weight:500;color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.g-proof__go:hover{color:var(--signal-ink,#2346D8)}
+@media (max-width:800px){.g-proof__row{grid-template-columns:repeat(2,minmax(0,1fr))}.g-proof__row > div:nth-child(2n){border-right:0;margin-right:0}.g-proof__row > div{border-bottom:1px solid var(--line)}}
+/* inner pages: the page's name is a title, not the whole first screen (it was 158 px tall at 1440 wide, and the first
+   real sentence started 650–830 px down a 900 px screen); the page's own statement now starts on screen one */
+.gi-hero{padding-top:110px;padding-bottom:clamp(20px,2.6vw,36px)}
+.gi-title{font-size:clamp(44px,6.4vw,112px);margin-top:clamp(22px,3vw,44px)}
+.gi-hero .g-side{margin-top:clamp(22px,3vw,44px)}
+@media (max-width:700px){.gi-hero{padding-top:18px}}
+/* the details panel beside an inner page's title is three facts in one row (its card set the height of the whole
+   title block); and the page's first section starts closer under it */
+.gi-hero .wrap{grid-template-columns:minmax(0,1fr) auto}
+.gi-hero .g-side{background:none;border:0;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;align-self:end;margin-bottom:.4em}
+.gi-hero .g-side__head{display:none}
+.gi-hero .g-side ul{flex-direction:row;gap:28px}
+.gi-hero .g-side li{max-width:220px}
+.gi-page main > section:first-of-type,.gi-page main > .section:first-child{padding-top:clamp(28px,3.4vw,56px)}
+@media (max-width:1100px){.gi-hero .wrap{grid-template-columns:minmax(0,1fr)}.gi-hero .g-side{margin-top:20px;max-width:none}.gi-hero .g-side ul{flex-wrap:wrap;gap:16px 24px}}
+/* ── G, tenth pass (2026-11-11): one light site. The search panel was the one dark full screen left (and darkened the
+   header with it); it is paper and ink now, fills the phone screen, and the header keeps its own light look. ──── */
+.g-search{background:var(--paper);color:var(--ink)}
+.g-search__q{border-color:var(--ink);color:var(--ink);background:var(--card)}
+.g-search__q:focus{border-color:var(--signal,#2F5BFF);outline:2px solid var(--signal,#2F5BFF);outline-offset:2px}
+.g-search__q::placeholder{color:var(--muted)}
+.g-search__clear,.g-search__pop button,.g-search__res a{color:var(--ink)}
+.g-search__k,.g-search__p{color:var(--muted)}
+.g-search__x{color:var(--ink-soft,#3A4250)}
+.g-search__res a{border-top-color:var(--line)}
+.g-search__res li:last-child a{border-bottom-color:var(--line)}
+.g-search__res a:focus-visible{outline:2px solid var(--signal,#2F5BFF);outline-offset:4px}
+.g-search mark{color:var(--ink);background:var(--signal-soft,#E8EDFF)}
+html.g-search-open nav:not([class]) .nav-in{background:var(--paper)}
+html.g-search-open nav:not([class]) .brand,html.g-search-open nav:not([class]) .brand .wm{color:var(--ink)}
+html.g-search-open nav:not([class]) .brand svg{filter:none}
+html.g-search-open nav:not([class]) .btn-ghost,html.g-search-open nav:not([class]) .g-menubtn{color:var(--ink);border-color:var(--ink);background:var(--card)}
+html.g-search-open nav:not([class]) .g-sq{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (max-width:700px){.g-search{bottom:0;padding-bottom:96px}}

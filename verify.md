@@ -13,7 +13,7 @@ Every check runs locally, from public artifacts, in milliseconds — offline-cap
 
 - 2 · CHECK THE CHAINPassport → registrar → root, plus the authority chain to its anchor. Cached keys, milliseconds.
 
-- 3 · CHECK STATUSFresh revocation proof and witness-cosigned log inclusion. In good standing, right now.
+- 3 · CHECK STATUSFresh revocation proof and inclusion in the registrar's signed log. In good standing, right now.
 
 - 4 · DECIDEYour policy: tier floor, accepted authority classes, required scopes, fail-open or closed.
 
@@ -34,7 +34,7 @@ PROPOSED
 
 Air-gapped verification against a cached list up to 24 hours old — still cryptographically complete, still fail-closed.
 
-- REAL TODAY — THE REFERENCE CLIA zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.3 and try to break it.
+- REAL TODAY — THE REFERENCE CLIA zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.4 and try to break it.
 
 - REAL TODAY — THE FULL IMPLEMENTATIONVerify in five lines with the SDK (@ainra/sdk on npm, ainra on PyPI), a fail-closed middleware gate, registrar-in-a-box in one command, and the complete conformance vector set — published under CC0, so conformance never needs anyone's permission.
 
@@ -53,6 +53,11 @@ STAGING · TEST-ROOT
 
 Choose a live lineage
 
+Verify in my browser
+↺ Reset (undo forgery)
+
+Use your own bundle, or verify as a named service
+
 ### Or paste your own bundle
 
 A conformance vector, a {anchors, presentation} pair, or a bare presentation (checked against the registrar selected above). It is read in this tab and nothing is sent anywhere.
@@ -67,9 +72,6 @@ This verifier's audience
 A holder-bound instance credential (ADR-019) names the one service it may be presented to. Type
 that service's identifier here to verify as it; leave it blank and any such credential is refused —
 a verifier that has not said who it is cannot be the audience of anything.
-
-Verify in my browser
-↺ Reset (undo forgery)
 
 ### The verdict
 RUNS ON YOUR MACHINE
@@ -91,7 +93,7 @@ Break the signaturecorrupt one byte → sig_invalid
 Replay an old statusbackdate the revocation list → stale_status
 Forge the log proofbad inclusion proof → not_logged
 
-This runs the verifier in your browser and needs JavaScript. The same verifier is also a downloadable CLI — get it above.
+This runs the verifier in your browser and needs JavaScript. A separate reference CLI, which runs with just node, is also downloadable — get it above. It is a simpler implementation, not this verifier.
 
 /02 · The authority model
 
@@ -179,8 +181,10 @@ Network
 terminalCOPY
 
 $ ainra init ./reg registrar-07
-$ ainra issue ./reg --operator acme --lineage invoicing --version 1.0.0 --tier L2
+$ ainra issue ./reg --operator acme --lineage invoicing --version 1.0.0 --tier L2 --cap read:data
 $ ainra verify ./reg ainra:registrar-07:acme:invoicing@1.0.0
 VALID
+
+These commands are for the Rust ainra: in a checkout, cargo build --release -p ainra-cli-rs puts it at ./target/release/ainra. The zip above is the Node reference CLI, and its commands differ.
 
 The CLI lifecycle

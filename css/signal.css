@@ -19,21 +19,26 @@
 :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 
 /* ── the header's call to action ──────────────────────────────────────────────────────────────────────────────────
-   over the hero film it stays exactly as it was (transparent, a light outline, paper text) so the film stays the
-   picture; the moment the page scrolls onto paper it turns solid signal; on phones, where it is the bottom bar, it is
-   solid signal throughout. Every state keeps the wipe from the left on hover. */
+   over the hero film it stays quiet (transparent, an outline, no fill) so the film stays the picture; the moment the
+   page scrolls onto paper it turns solid signal; on phones, where it is the bottom bar, it is solid signal
+   throughout. Every state keeps the wipe from the left on hover. The film is light now (2026-11-10), so the quiet
+   state is ink on paper (html.nav-on-hero); the paper-on-dark state (html.nav-on-dark) stays for a dark hero. */
 nav:not([class]) .nav-r > .btn:first-child{background:var(--signal);border-color:var(--signal);color:#fff;
   transition:background-color var(--t-fast,.2s) ease,border-color var(--t-fast,.2s) ease,color var(--t-fast,.2s) ease}
 nav:not([class]) .nav-r > .btn:first-child::before{background:var(--signal-ink)}
 nav:not([class]) .nav-r > .btn:first-child:hover,
 nav:not([class]) .nav-r > .btn:first-child:focus-visible{color:#fff;border-color:var(--signal-ink)}
-html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child,
-html.g-search-open nav:not([class]) .nav-r > .btn:first-child{color:var(--paper);border-color:rgba(245,246,243,.7);background:transparent}
+html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child{color:var(--paper);border-color:rgba(245,246,243,.7);background:transparent}
 html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child::before{background:var(--signal)}
 html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child:hover,
 html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child:focus-visible{color:#fff;border-color:var(--signal)}
+html.nav-on-hero nav:not([class]) .nav-r > .btn:first-child{color:var(--ink);border-color:var(--ink);background:transparent}
+html.nav-on-hero nav:not([class]) .nav-r > .btn:first-child::before{background:var(--signal)}
+html.nav-on-hero nav:not([class]) .nav-r > .btn:first-child:hover,
+html.nav-on-hero nav:not([class]) .nav-r > .btn:first-child:focus-visible{color:#fff;border-color:var(--signal)}
 @media (max-width:800px){
   nav:not([class]) .nav-r > .btn:first-child,
+  html.nav-on-hero nav:not([class]) .nav-r > .btn:first-child,
   html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child{background:var(--signal);border-color:var(--signal);color:#fff}
   nav:not([class]) .nav-r > .btn:first-child::before{background:var(--signal-ink)}
 }
@@ -42,6 +47,7 @@ html.nav-on-dark nav:not([class]) .nav-r > .btn:first-child:focus-visible{color:
 .btn-ghost::before{background:var(--signal)}
 .btn-ghost:hover,.btn-ghost:focus-visible{color:#fff;border-color:var(--signal)}
 .btn-ink:hover,.btn-ink:focus-visible{background:var(--signal);border-color:var(--signal)}
+.btn-ink::before{background:var(--signal)}   /* its wipe was still the deep green: green is a verdict here, never a hover */
 [aria-label="Next cards"]:hover,[aria-label="Previous cards"]:hover,
 [aria-label="Next cards"]:focus-visible,[aria-label="Previous cards"]:focus-visible{background:var(--signal);border-color:var(--signal);color:#fff}
 .g-tabs__all:hover,.g-tabs__all:focus-visible{background:var(--signal);border-color:var(--signal);color:#fff}
@@ -81,3 +87,21 @@ main a:not(.btn):not([class*="g-"]):hover{color:var(--signal-ink)}
 @media (prefers-reduced-motion:reduce){.live::before{animation:none}.g-ask,.g-ask__i,.g-duplex__a{transition:none}}
 /* forced-colours (Windows high contrast): let the system colours win, keep the text readable */
 @media (forced-colors:active){.g-statement__t .soft,.statement-big .soft{background:none;color:CanvasText}}
+/* placeholder text was the browser's default grey, just under the contrast floor on paper */
+input::placeholder,textarea::placeholder{color:var(--muted,#5A6372);opacity:1}
+
+/* ── green means valid, nothing else (2026-11-11 review): the announcement strips and small labels that used it as
+   decoration are ink and grey now; the verdict chips, VALID, ACTIVE and the trust marks keep it ─────────────────── */
+.g-announce{background:var(--band,#ECEEE9)}
+.g-announce__k{background:var(--ink);color:var(--paper)}
+.announce a{color:var(--ink)}
+.announce a:hover,.g-announce a:hover{color:var(--signal-ink)}
+.film__k{color:var(--muted)}
+
+/* ── small labels are readable (2026-11-11): a tenth to a fifth of the visible text was 10–11 px capitals. Twelve
+   pixels is the floor for a label; the tracking eases a little so the wider letters do not sprawl. ─────────────── */
+.rclock,.motion-btn,.ticker__head,.rec-table caption,.rec-table th,.tree-key,.sgrid__msg,.sgrid__tip,.sgrid__sum,.sgrid__key,
+.sec-index,.sec-index ol,.reg-sum__h,.watch__facts dt,.src,.g-k,.g-link,.g-announce__k,.g-menu__k,.g-card__d,.g-fact a,
+.g-tabs__all,.g-tabs__k,.g-lead__k,.g-side__head span,.g-side li span,.g-side__tab,.gi-sub__k,.g-foot__cols h4,.g-foot__status,
+.g-search__k,.g-search__p,.film__k,.h-trip__k,.g-hero__k,.g-row__i{font-size:12px}
+.g-foot__status,.g-side li span,.g-side__head span,.g-menu__k,.g-foot__cols h4{letter-spacing:.1em}

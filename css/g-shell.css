@@ -94,7 +94,7 @@ nav:not([class]) .nav-in,.nav-float nav:not([class]) .nav-in{max-width:none;widt
 .g-side__head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .g-side__head span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .g-side__x{width:28px;height:28px;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:2px;cursor:pointer;font-size:16px;line-height:1}
-.g-side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.g-side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;overflow:clip}
 .g-side li{border-left:1px solid var(--ink);padding-left:12px;font-size:13px;line-height:1.4;color:var(--ink)}
 .g-side li span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 .g-side li{opacity:0;transform:translateX(12px);transition:opacity .4s ease,transform .5s cubic-bezier(.22,1,.36,1)}
@@ -145,7 +145,7 @@ footer.g-foot{background:transparent;border-top:1px solid var(--line);margin-top
 .g-foot__cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:20px}
 .g-foot__cols h4{font-family:var(--sans);font-size:10px;font-weight:400;line-height:16px;letter-spacing:.5px;text-transform:uppercase;color:#666;margin:0 0 10px}
 .g-foot__cols ul{list-style:none;margin:0;padding:0}
-.g-foot__cols li a{display:inline-block;padding:3px 0;font-size:16px;line-height:22.6px;color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.g-foot__cols li a{display:inline-block;padding:3px 0;font-size:16px;line-height:22.6px;color:var(--ink);text-decoration:none;overflow-wrap:break-word}
 .g-foot__cols li a:hover{text-decoration:underline;text-underline-offset:3px}
 .g-foot__status{margin:72px auto 0;padding:20px 30px 0;max-width:1440px;border-top:0;display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.5px;line-height:16px;text-transform:uppercase;color:#666}
 .g-foot__status .live{color:var(--ink)}
@@ -209,12 +209,53 @@ nav:not([class]) .brand .wm{font-size:18px;line-height:20px}
 nav:not([class]) .nav-r .g-menubtn,nav:not([class]) .nav-r .g-sq{min-width:40px;max-width:40px;padding:0}
 @media (min-width:701px){nav:not([class]) .nav-in,html.nav-float nav:not([class]) .nav-in{max-width:1480px;margin-left:auto;margin-right:auto}}
 @media (max-width:800px){.g-side{display:none}}
+html.g-menu-open nav:not([class]){z-index:90}
+.g-menu{background:rgba(245,246,243,.96)}
+@media (max-width:700px){.g-menu{padding-bottom:96px}}
+@keyframes gIntroLift{to{transform:translateX(130%) skewX(-12deg)}}
+.g-intro:not(.is-done):not(.is-leaving) .g-intro__panel{animation:gIntroLift .6s cubic-bezier(.76,0,.24,1) 2.4s forwards}
+html.g-intro-brief .g-intro__panel{transition-duration:.42s}
+html.g-intro-brief .g-intro.is-leaving.is-cover .g-intro__panel{transition-duration:.26s}
+.g-side__tab:not(.is-shown){visibility:hidden;transition:transform .45s cubic-bezier(.22,1,.36,1),visibility 0s .45s}
+@media (max-width:700px){body.gi-page{padding-bottom:70px}}
+.nav-r{transition:opacity .2s ease}
+html.nav-bar-yield .nav-r{opacity:0;pointer-events:none}
+nav:not([class]) .nav-r .g-menubtn[aria-expanded="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (max-height:639px) and (min-width:701px){.g-side,.g-side__tab{display:none}}
+.gi-hero{padding-top:110px;padding-bottom:clamp(20px,2.6vw,36px)}
+.gi-title{font-size:clamp(44px,6.4vw,112px);margin-top:clamp(22px,3vw,44px)}
+.gi-hero .g-side{margin-top:clamp(22px,3vw,44px)}
+@media (max-width:700px){.gi-hero{padding-top:18px}}
+.gi-hero .wrap{grid-template-columns:minmax(0,1fr) auto}
+.gi-hero .g-side{background:none;border:0;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;align-self:end;margin-bottom:.4em}
+.gi-hero .g-side__head{display:none}
+.gi-hero .g-side ul{flex-direction:row;gap:28px}
+.gi-hero .g-side li{max-width:220px}
+.gi-page main > section:first-of-type,.gi-page main > .section:first-child{padding-top:clamp(28px,3.4vw,56px)}
+@media (max-width:1100px){.gi-hero .wrap{grid-template-columns:minmax(0,1fr)}.gi-hero .g-side{margin-top:20px;max-width:none}.gi-hero .g-side ul{flex-wrap:wrap;gap:16px 24px}}
+.g-search{background:var(--paper);color:var(--ink)}
+.g-search__q{border-color:var(--ink);color:var(--ink);background:var(--card)}
+.g-search__q:focus{border-color:var(--signal,#2F5BFF);outline:2px solid var(--signal,#2F5BFF);outline-offset:2px}
+.g-search__q::placeholder{color:var(--muted)}
+.g-search__clear,.g-search__pop button,.g-search__res a{color:var(--ink)}
+.g-search__k,.g-search__p{color:var(--muted)}
+.g-search__x{color:var(--ink-soft,#3A4250)}
+.g-search__res a{border-top-color:var(--line)}
+.g-search__res li:last-child a{border-bottom-color:var(--line)}
+.g-search__res a:focus-visible{outline:2px solid var(--signal,#2F5BFF);outline-offset:4px}
+.g-search mark{color:var(--ink);background:var(--signal-soft,#E8EDFF)}
+html.g-search-open nav:not([class]) .nav-in{background:var(--paper)}
+html.g-search-open nav:not([class]) .brand,html.g-search-open nav:not([class]) .brand .wm{color:var(--ink)}
+html.g-search-open nav:not([class]) .brand svg{filter:none}
+html.g-search-open nav:not([class]) .btn-ghost,html.g-search-open nav:not([class]) .g-menubtn{color:var(--ink);border-color:var(--ink);background:var(--card)}
+html.g-search-open nav:not([class]) .g-sq{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (max-width:700px){.g-search{bottom:0;padding-bottom:96px}}
 /* the inner pages' sticky chapter rail sits below the floating header */
 @media (min-width:1024px){.chapter-rail{top:104px}}
 /* a jump to any section lands below the floating header, not under it */
 [id]{scroll-margin-top:110px}
 /* below 1024 px the rail is a sticky strip: it pins under the header (floating 16 + 70, or flush 70 on phones), on paper */
-@media (max-width:1023px){.chapter-rail{top:96px;background:var(--paper)}}
+@media (max-width:1023px){.chapter-rail{position:sticky;z-index:5;top:96px;background:var(--paper)}}
 @media (max-width:700px){.chapter-rail{top:70px}}
 /* inner pages: a little less air under each section head, so a short heading beside a long lede leaves no hole */
 .gi-page .section .sec-head{margin-bottom:32px}

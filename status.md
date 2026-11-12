@@ -27,7 +27,7 @@ UPDATED 2026-11-04 · THE NUMBERS BELOW THE REGISTER COME FROM THE PUBLISHED REC
 
 The complete normative specification. Read it or take the canonical file.
 
-### REFERENCE CLI v0.3.3 — WORKING ✓
+### REFERENCE CLI v0.3.4 — WORKING ✓
 
 Zero-dependency, real signatures, hash-chained log; catches forged tiers and rewritten history live. Download.
 
@@ -185,7 +185,7 @@ Signatures and revocation are checked on the verifier’s own machine, from publ
 
 ### A seized key, switched off.
 
-If a device or an agent’s key is taken, one bit set in the signed status list (an IETF Token Status List) makes every verifier that checks refuse it — within its freshness class: 30 seconds at F1, five minutes by default.
+If a device or an agent’s key is taken, one bit set in the signed status list (an IETF Token Status List) makes every verifier that checks refuse it — within its freshness class: a status no older than 30 seconds at F1 (measured end to end, under 60 seconds, in make soak-smoke), five minutes by default.
 
 /04
 

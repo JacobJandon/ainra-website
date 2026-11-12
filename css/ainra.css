@@ -9,15 +9,15 @@
   --ink:#0B1220;--ink-2:#111B30;--ink-soft:#3A4250;--muted:#5A6372;--line:#E2E5DF;--rule-strong:#7D8580;
   --green:#1A6B4E;--green-deep:#14563F;--green-br:#57C08F;--mint:#E2EFE7;--amber:#8A6A14;--red:#A83A2C;
   --code-bg:#0B1220;--code-text:#E7EAF0;--code-muted:#98A1B3;--life-cell:#D3D6D1;
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"B612 Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:"Inter","Inter Fallback",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Noto Sans Mono","Noto Sans Mono Fallback","B612 Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
   --w-display:400; /* OD-2: 400 or 600; compare with ?w=400 / ?w=600 */
   --w-display-phone:max(var(--w-display),500);
   --fs-display:clamp(46px,6.517vw + 20.58px,104px);--fs-title:clamp(40px,5.393vw + 18.97px,88px);
   --fs-statement:clamp(32px,3.596vw + 17.98px,64px);--fs-h2:clamp(28px,1.798vw + 20.99px,44px);
   --fs-index:clamp(26px,1.573vw + 19.87px,40px);--fs-h3:clamp(21px,.562vw + 18.81px,26px);--fs-h4:17px;
   --fs-lead:clamp(18px,.449vw + 16.25px,22px);--fs-body:clamp(16px,.112vw + 15.56px,17px);
-  --fs-small:14px;--fs-earmark:11px;--fs-data:13px;--fs-spec:15px;--fs-btn:15px;
+  --fs-small:14px;--fs-earmark:12px;--fs-data:13px;--fs-spec:15px;--fs-btn:15px;
   --max:1440px;--gutter:clamp(16px,1.798vw + 8.99px,32px);--gap:24px;--section:clamp(64px,5.393vw + 42.97px,112px);--measure:62ch;
   --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;
   --r-0:0;--r-ctl:2px;--r-doc:16px;--hair:1px;--t-fast:150ms;--t:200ms;--ease:cubic-bezier(.2,0,0,1);
@@ -393,3 +393,25 @@ footer{background:var(--paper);border-top:1px solid var(--ink);margin-top:var(--
 .w-toggle button{min-height:32px;min-width:44px;padding:0 8px;border-left:1px solid var(--line);color:var(--ink)}
 .w-toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 @media print{.w-toggle{display:none}}
+/* phones: an inner page's top strip is its one message; the record clock and the Motion switch it also carried are in
+   the footer of every page, and here they made the strip three lines and a box, about a sixth of the first screen */
+@media (max-width:700px){.announce .announce__side{display:none}}
+.s-rows .s-more{margin-top:16px}
+/* the verifier: paste-your-own and the audience field wait behind one closed disclosure, under the run button */
+.try-own{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.try-own > summary{cursor:pointer;font-weight:500;color:var(--ink);padding:10px 0;min-height:44px;display:flex;align-items:center}
+.try-own[open] > summary{margin-bottom:6px}
+/* phones: two wide diagrams were scaled down until their labels were 4–6 px tall. They keep a readable size and the
+   figure scrolls sideways instead, as the tables do. */
+@media (max-width:700px){
+  .vchain .fig__body,.lfig .fig__body{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .vchain svg.vc{min-width:660px;max-width:none}
+  .lfig .fig__body > svg{min-width:600px;max-width:none}
+}
+
+/* ── Line breaks (2026-11-12; owner: at some window sizes and display scales "some letters go down").
+   Headings balance their lines, so none ends on one lone word at any width; paragraphs and list items avoid a lone last
+   word where the browser supports it (older browsers ignore both and wrap as before). Measured with
+   ainra-private/design/2026-11-10-site-review/checks/textfit-audit.mjs across 34 window sizes at 100/125/150% and phones. */
+h1,h2,h3,h4,.title,.statement,.lede{text-wrap:balance}
+p,li,dd,figcaption,blockquote{text-wrap:pretty}
