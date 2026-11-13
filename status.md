@@ -21,7 +21,7 @@ NOTHING ON THIS SITE IS SIMULATED WITHOUT SAYING SO · NUMBERS ARE MEASURED OR T
 
 This page states exactly what exists — nothing more. It changes only when reality does. If anything here ever disagrees with reality, that is a bug: tell us.
 
-UPDATED 2026-11-04 · THE NUMBERS BELOW THE REGISTER COME FROM THE PUBLISHED RECORD 2026-11-04 · AGE ·
+UPDATED 2026-11-04 · THE NUMBERS BELOW THE REGISTER COME FROM THE PUBLISHED RECORD 2026-11-13 · AGE ·
 
 ### STANDARD v5.1 — PUBLIC ✓
 

@@ -44,7 +44,7 @@ VERIFICATION IS LOCAL · IT NEVER PHONES HOME · CONFORMANCE IS CLAIMED AGAINST 
 
 ## Verify an agent.Then try to forge one.
 
-THE PICKER BELOW HOLDS THE PUBLISHED RECORD · 80 PASSPORTS · 53 REVOKED · 2 REGISTRARS · source: net/registry.json
+THE PICKER BELOW HOLDS THE PUBLISHED RECORD · 8 PASSPORTS · 2 REVOKED · 2 REGISTRARS · source: net/registry.json
 
 The actual AINRA verifier — the same code that passes every conformance vector — runs in your browser. It checks passports and, when one is present, the short-lived credential a running copy carries (the instance path). Pick a real passport, then tamper with it and watch it fail closed with a named reason. Nothing is uploaded; the root is never contacted.
 
