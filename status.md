@@ -27,7 +27,7 @@ UPDATED 2026-11-04 · THE NUMBERS BELOW THE REGISTER COME FROM THE PUBLISHED REC
 
 The complete normative specification. Read it or take the canonical file.
 
-### REFERENCE CLI v0.3.4 — WORKING ✓
+### REFERENCE CLI v0.3.5 — WORKING ✓
 
 Zero-dependency, real signatures, hash-chained log; catches forged tiers and rewritten history live. Download.
 
@@ -80,7 +80,7 @@ make stage-install (or make genesis-local for a one-shot local world).
 
 ## The organization.
 
-A member-governed, non-profit federation — neutral ground where competing issuers become one system without becoming one company. Legitimacy flows from members; the federation never competes with them.
+Neutral ground where competing issuers become one network without becoming one company. Legitimacy flows from members; the federation never competes with them. Member-governed, non-profit.
 
 Members
 

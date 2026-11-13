@@ -34,7 +34,7 @@ PROPOSED
 
 Air-gapped verification against a cached list up to 24 hours old — still cryptographically complete, still fail-closed.
 
-- REAL TODAY — THE REFERENCE CLIA zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.4 and try to break it.
+- REAL TODAY — THE REFERENCE CLIA zero-dependency command-line tool with real signatures and a hash-chained local log. It issues, verifies and revokes — and it catches tampering live: a forged tier and a rewritten log line are both rejected with the exact reason. Download v0.3.5 and try to break it.
 
 - REAL TODAY — THE FULL IMPLEMENTATIONVerify in five lines with the SDK (@ainra/sdk on npm, ainra on PyPI), a fail-closed middleware gate, registrar-in-a-box in one command, and the complete conformance vector set — published under CC0, so conformance never needs anyone's permission.
 
