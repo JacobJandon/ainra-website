@@ -9,6 +9,33 @@
   },
   "entries": [
     {
+      "id": "links-take-p256-keys",
+      "date": "2026-11-14",
+      "kind": "rules",
+      "major": false,
+      "title": "A link can now take the kind of key most systems already use",
+      "body": [
+        "Most identity systems give their agents a P-256 key. It is the key inside a certificate, a signed agent card, a platform keystore. A link is how a key you already have gets an accountable owner and an off-switch, and until now a link could not take one of these.",
+        "It can now. The key stays where it lives and nothing is reissued. It signs its consent once, a registrar links it to its operator's passport, and anyone can then check offline who stands behind it and whether that is still true.",
+        "This is on the main branch, with ten new test vectors that all three of our verifiers agree on, and it will be in the next release of the packages. It is the first step of a plan we have written down: to be the root that other identity systems share, not one more island beside them. Our root is still a test root, and the plan says so."
+      ],
+      "proof": [
+        {
+          "label": "Decision D-108",
+          "href": "https://github.com/JacobJandon/ainra/blob/main/docs/DECISIONS.md"
+        },
+        {
+          "label": "The plan",
+          "href": "https://github.com/JacobJandon/ainra/blob/main/docs/PLAN-M55.md"
+        },
+        {
+          "label": "How links work",
+          "href": "https://github.com/JacobJandon/ainra/blob/main/docs/LINKS.md"
+        }
+      ],
+      "covers": {}
+    },
+    {
       "id": "the-test-network-has-new-keys",
       "date": "2026-11-13",
       "kind": "network",
