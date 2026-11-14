@@ -138,6 +138,7 @@ paths:
                   enum:
                     - Ed25519
                     - ES256K
+                    - ES256
                   default: Ed25519
                 key:
                   type: string
